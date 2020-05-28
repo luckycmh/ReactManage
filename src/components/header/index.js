@@ -15,7 +15,7 @@ export default class Header extends React.Component {
                 sysTime
             })
         },1000);
-        this.getWeatherApi();
+        //this.getWeatherApi();
     }
 
     getWeatherApi = () => {

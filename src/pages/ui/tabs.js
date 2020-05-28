@@ -27,9 +27,7 @@ export default function () {
             content: `New Tab Pane${newTabIndex.current}`,
             key: activeKey
         };
-        setPanes(prevState => {
-            return [...prevState, newPane]
-        });
+        setPanes([...panes, newPane]);
         setActiveKey(activeKey);
     };
     const remove = targetKey => {
@@ -52,6 +50,9 @@ export default function () {
     const onEdit = (targetKey, action) => {
         action === 'add' ? add(targetKey) : remove(targetKey)
     };
+    const changeDymic = (activeKey) => {
+        setActiveKey(activeKey)
+    }
     return (
         <React.Fragment>
             <Card title="基础标签页" className="card-wrap">
@@ -98,6 +99,7 @@ export default function () {
                     activeKey={activeKey}
                     type="editable-card"
                     onEdit={onEdit}
+                    onChange={changeDymic}
                 >
                     {panes.map(pane => (
                         <TabPane tab={pane.title} key={pane.key}>

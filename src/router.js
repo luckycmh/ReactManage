@@ -13,6 +13,7 @@ import Modals from "./pages/ui/modals";
 import Loading from "./pages/ui/loading"
 import Notification from "./pages/ui/notification";
 import Message from './pages/ui/message'
+import Gallery from './pages/ui/gallery'
 import Tab from './pages/ui/tabs'
 
 import NotFound from './pages/notFound'
@@ -31,6 +32,7 @@ export default class RouterConfig extends React.Component{
                                 <Route path="/admin/ui/notification" component={Notification}/>
                                 <Route path="/admin/ui/messages" component={Message}/>
                                 <Route path="/admin/ui/tabs" component={Tab}/>
+                                <Route path="/admin/ui/gallery" component={Gallery}/>
                                 <Route component={NotFound}/>
                             </Switch>
                         </Admin>
