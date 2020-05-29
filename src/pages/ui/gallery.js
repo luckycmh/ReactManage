@@ -1,7 +1,13 @@
-import React from 'react';
-import {Card,Row,Col} from 'antd';
+import React, {useState} from 'react';
+import {Card,Row,Col,Modal} from 'antd';
 const { Meta } = Card;
 export default function(){
+    const [curImg,setImg] = useState('');
+    const [showImg,setShowImg] = useState(false);
+    const openPic = (imgName) => {
+        setImg(`/gallery/${imgName}`);
+        setShowImg(true);
+    }
     const imgs = [
         ['1.png','2.png','3.png','4.png','5.png'],
         ['6.png','7.png','8.png','9.png','10.png'],
@@ -12,25 +18,36 @@ export default function(){
     const imgLists = imgs.map(list => list.map(
         item =>
             <Card
+                style={{marginBottom:'10px'}}
                 key={item}
                 cover={<img alt="example" src={`/gallery/${item}`} />}
+                onClick={() => {openPic(item)}}
             >
                 <Meta title="Europe Street beat" description="www.instagram.com" />
             </Card>
     ))
     return (
         <React.Fragment>
-            <Row>
-                {imgLists.map((item,index) =>{
-                    return index === imgLists.length - 1 ?
+            <Row gutter={10}>
+                {imgLists.map((item,index) =>
+                     index === imgLists.length - 1 ?
                         <Col key={index} span={4}>
                             {item}
                         </Col> :
                         <Col key={index} span={5}>
                             {item}
-                        </Col>;
-                })}
+                        </Col>
+                )}
+
             </Row>
+            <Modal
+                visible={showImg}
+                title="打开画廊"
+                footer={null}
+                onCancel={() => {setShowImg(false)}}
+            >
+                <img src={curImg} alt="" width="100%"/>
+            </Modal>
         </React.Fragment>
     )
 }
