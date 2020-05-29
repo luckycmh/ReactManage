@@ -1,9 +1,25 @@
 import React, {useState, useEffect} from 'react'
-import {Button,Space,Table,Card} from 'antd'
+import {Button,Space,Table} from 'antd'
 import {statusConf} from "./config";
 import {getTableList} from '../../apis/table'
 
 export default function () {
+    const convertClass = (status) => {
+        let classStr = '';
+        switch (status) {
+            case 1:
+                classStr = 'dot-green';
+                break;
+            case 2 :
+                classStr = 'dot-red';
+                break;
+            case 3:
+                classStr = 'dot-black';
+            default:
+                break;
+        }
+        return classStr
+    }
     const columns = [
         {
             title: '学员编号',
@@ -30,7 +46,10 @@ export default function () {
             dataIndex: 'courseStatus',
             key: 'courseStatus',
             width: 100,
-            render: (courseStatus) => <span>{statusConf[courseStatus]}</span>
+            render: (courseStatus) =>
+                <span className={`dot ${convertClass(courseStatus)}`}>
+                    {statusConf[courseStatus]}
+                </span>
         },
         {
             title: '报读分馆',
@@ -47,7 +66,12 @@ export default function () {
         }
     ];
     const [tabList, setTabList] = useState([]);
-    const [pageInfo, setPageInfo] = useState({page:1,pageSize:10,total:0,totalPage:0});
+    const [pageInfo, setPageInfo] = useState({
+        current:1,
+        pageSize:10,
+        total:0,
+        totalPage:0
+    });
     const [selected,setSelected] = useState({keys:[],rows: []});
     const onSelectChange = (selectedRowKeys,selectedRows) => {
         setSelected({
@@ -61,27 +85,60 @@ export default function () {
      * @constructor
      */
     const TableListApi = async () => {
-        let {data:{code,data}} = await getTableList(1,10,'','','');
+        let {data:{code,data}} = await getTableList(
+            pageInfo.current,
+            pageInfo.pageSize,
+            '',
+            '',
+            '');
         if (code === 1){
             data.list.forEach(item => {
                 item.key = item.id;
             })
-            setTabList(data.list)
+            setTabList(data.list);
+            setPageInfo({
+                    ...pageInfo,
+                    total: data.total,
+                    current: data.page
+                });
         }
     }
+    // 初始化请求数据
     useEffect(() => {
         TableListApi();
-    },[]);
-
+    },[pageInfo.current,pageInfo.pageSize]);
+    // 选择行数据配置
     const rowSelection = {
         selectedRowKeys: selected.keys,
         onChange: onSelectChange,
     }
+    const handleTableChange = (pagination,filters) => {
+        let {current,pageSize} = pagination;
+        setPageInfo({
+            ...pageInfo,
+            current,
+            pageSize
+        });
+    }
     return (
         <React.Fragment>
-            <Card>
-                <Table rowSelection={rowSelection} columns={columns} dataSource={tabList} />
-            </Card>
+            <Table
+                rowSelection={rowSelection}
+                columns={columns}
+                dataSource={tabList}
+                pagination={{
+                    total: pageInfo.total,
+                    current: pageInfo.current,
+                    showSizeChanger: true,
+                    showQuickJumper: true,
+                    pageSizeOptions: ['10', '20', '50'],
+                    defaultPageSize: pageInfo.pageSize,
+                    showTotal: total => {
+                        return `共${total}条`;
+                    }
+                }}
+                onChange={handleTableChange}
+            />
         </React.Fragment>
     )
 }

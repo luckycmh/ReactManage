@@ -24,3 +24,27 @@ code {
   z-index: 9999;
   font-size: 20px;
 }
+/* 状态原点 */
+.dot::before{
+  position: relative;
+  display: inline-block;
+  left: -4px;
+  top: -2px;
+  content: " ";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #e5e5e5;
+}
+.dot-green::before{
+  background-color: #67C23A;
+}
+.dot-orange::before{
+  background-color: #FF8C15;
+}
+.dot-red::before{
+  background-color: #FF1600;
+}
+.dot-black::before{
+  background-color: #333;
+}

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Form, Card, Input, Button, Checkbox} from 'antd';
+import {Form, Card, Input, Button, Checkbox,Pagination} from 'antd';
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
 
 export default function () {
@@ -18,6 +18,7 @@ export default function () {
     const validateMessages = {
         required: "'${name}' 是必选字段",
     };
+    const onShowSizeChange = () => {}
 
     return (
         <React.Fragment>
@@ -100,6 +101,12 @@ export default function () {
                     </Form.Item>
                 </Form>
             </Card>
+            <Pagination
+                showSizeChanger
+                onShowSizeChange={onShowSizeChange}
+                defaultCurrent={3}
+                total={500}
+            />
 
         </React.Fragment>
     )
