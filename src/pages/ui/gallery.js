@@ -41,6 +41,8 @@ export default function(){
 
             </Row>
             <Modal
+                width={400}
+                height={500}
                 visible={showImg}
                 title="打开画廊"
                 footer={null}

@@ -14,6 +14,8 @@ import Loading from "./pages/ui/loading"
 import Notification from "./pages/ui/notification";
 import Message from './pages/ui/message'
 import Gallery from './pages/ui/gallery'
+import FormLogin from './pages/form/Login'
+import Table from './pages/table/Table'
 import Tab from './pages/ui/tabs'
 
 import NotFound from './pages/notFound'
@@ -33,6 +35,8 @@ export default class RouterConfig extends React.Component{
                                 <Route path="/admin/ui/messages" component={Message}/>
                                 <Route path="/admin/ui/tabs" component={Tab}/>
                                 <Route path="/admin/ui/gallery" component={Gallery}/>
+                                <Route path="/admin/form/login" component={FormLogin}/>
+                                <Route path="/admin/table/basic" component={Table}/>
                                 <Route component={NotFound}/>
                             </Switch>
                         </Admin>
