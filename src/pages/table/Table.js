@@ -48,6 +48,13 @@ export default function () {
     ];
     const [tabList, setTabList] = useState([]);
     const [pageInfo, setPageInfo] = useState({page:1,pageSize:10,total:0,totalPage:0});
+    const [selected,setSelected] = useState({keys:[],rows: []});
+    const onSelectChange = (selectedRowKeys,selectedRows) => {
+        setSelected({
+            keys: selectedRowKeys,
+            rows: selectedRows
+        });
+    }
     /**
      * 获取表格数据
      * @returns {Promise<void>}
@@ -55,10 +62,9 @@ export default function () {
      */
     const TableListApi = async () => {
         let {data:{code,data}} = await getTableList(1,10,'','','');
-        console.log(data);
         if (code === 1){
             data.list.forEach(item => {
-                item.key = item.username;
+                item.key = item.id;
             })
             setTabList(data.list)
         }
@@ -67,10 +73,14 @@ export default function () {
         TableListApi();
     },[]);
 
+    const rowSelection = {
+        selectedRowKeys: selected.keys,
+        onChange: onSelectChange,
+    }
     return (
         <React.Fragment>
             <Card>
-                <Table columns={columns} dataSource={tabList} />
+                <Table rowSelection={rowSelection} columns={columns} dataSource={tabList} />
             </Card>
         </React.Fragment>
     )
