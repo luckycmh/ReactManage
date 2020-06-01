@@ -20,7 +20,7 @@ export default function(){
                     <Form
                         name="login_form"
                         className="login-form"
-                        initialValues={{remember: true}}
+                        initialValues={{remember: false}}
                         onFinish={onFinish}
                     >
                         <Item
