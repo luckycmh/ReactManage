@@ -5,8 +5,8 @@ import './index.less'
 const Item = Form.Item;
 
 export default function(){
-    const onFinish = () => {
-
+    const onFinish = (values) => {
+        console.log(values);
     }
     return (
         <div className="login">
