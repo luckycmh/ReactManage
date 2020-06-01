@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN';
 
-import './index.css';
+import './style/reset.css';
 import RouterConfig from './router';
 import * as serviceWorker from './serviceWorker';
 

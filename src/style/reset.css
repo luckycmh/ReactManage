@@ -1,0 +1,124 @@
+/*******
+********新版公用 自2015-11-16起
+*******/
+@charset "utf-8";
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-text-size-adjust: 100%;
+}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+    padding: 0;
+    margin: 0
+}
+body{
+    background: #F6F6F6;
+}
+body, button, input, select, textarea {
+    font: 12px Microsoft YaHei, arial, \5b8b\4f53;
+    color: #333;
+}
+ul, ol, li {
+    list-style: none
+}
+img {
+    vertical-align: top;
+    border: 0
+}
+a {
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+}
+a:hover {
+    text-decoration: underline
+}
+a:link {
+    text-decoration: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0
+}
+table td {
+    padding: 0;
+    margin: 0
+}
+table th.wztop {
+    vertical-align: top
+}
+.clearfix {
+    *zoom: 1
+}
+.clearfix:after {
+    display: block;
+    clear: both;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    content: "."
+}
+input, button, select, textarea {
+    outline: 0;
+}
+textarea {
+    resize: none
+}
+.fl {
+    float: left
+}
+.fr {
+    float: right
+}
+section, article, aside, header, footer, nav, dialog, figure {
+    display: block;
+    padding: 0;
+    margin: 0
+}
+html, body {
+    height: 100%
+}
+.clearfix {
+    clear: both;
+    display: block;
+    font: 0px/0px sans-serif;
+}
+
+
+#loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.6);
+    z-index: 9999;
+    font-size: 20px;
+}
+/* 状态原点 */
+.dot::before{
+    position: relative;
+    display: inline-block;
+    left: -4px;
+    top: -2px;
+    content: " ";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #e5e5e5;
+}
+.dot-green::before{
+    background-color: #67C23A;
+}
+.dot-orange::before{
+    background-color: #FF8C15;
+}
+.dot-red::before{
+    background-color: #FF1600;
+}
+.dot-black::before{
+    background-color: #333;
+}
+
