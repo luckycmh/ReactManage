@@ -5,6 +5,7 @@ import {
     Switch,
     Redirect
 } from "react-router-dom";
+import Cookies from 'js-cookie'
 import App from './App'
 import Login from './pages/login'
 import Admin from "./Admin";

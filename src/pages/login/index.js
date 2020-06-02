@@ -1,12 +1,43 @@
-import React from 'react';
-import {Form,Input,Button,Checkbox} from "antd";
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import React, {useState,useEffect,useLayoutEffect} from 'react';
+import {Form, Input, Button, Checkbox} from "antd";
+import {UserOutlined, LockOutlined} from '@ant-design/icons';
+import { useHistory } from 'react-router-dom'
+import Cookies from 'js-cookie'
 import './index.less'
+import {login} from '../../apis/common'
+import {Utils} from "../../utils/utils";
+const utils = new Utils();
+
 const Item = Form.Item;
 
-export default function(){
+export default function () {
+    const [telephone,setTelephone] = useState('');
+    const [password,setPassword] = useState('');
+    const history = useHistory()
+    const loginApi = async () => {
+        let {data:{code,data}} = await login(telephone,password,0);
+        if (code === 1) {
+            let decodeData = JSON.parse(utils.decrypt(data));
+            let cookInfo = decodeData.data;
+            Cookies.set(cookInfo.name, cookInfo.val, { expires: 1 });
+            localStorage.setItem('annieUser', data);
+            history.push('/');
+        }
+
+    }
+    useEffect(() => {
+        if (telephone && password) {
+            loginApi();
+        }
+    },[telephone,password])
+    useLayoutEffect(() => {
+        if (localStorage.getItem('annieUser') && Cookies.get('ANNIEKIDSUSS')) {
+            history.push('/');
+        }
+    }, [])
     const onFinish = (values) => {
-        console.log(values);
+        setTelephone(values.username);
+        setPassword(values.password);
     }
     return (
         <div className="login">
@@ -37,12 +68,12 @@ export default function(){
                         <Item
                             name="password"
                             rules={[{
-                                required:true,
+                                required: true,
                                 message: '请输入密码'
                             }]}
                         >
                             <Input
-                                prefix={<LockOutlined className="site-form-item-icon" />}
+                                prefix={<LockOutlined className="site-form-item-icon"/>}
                                 type="password"
                                 placeholder="请输入密码"
                             />

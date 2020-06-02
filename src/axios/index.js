@@ -83,6 +83,21 @@ axios.interceptors.response.use(res => {
     if (res.config.headers.isLoading !== false) {
         hideLoading()
     }
+    // 这个根据后台返回的状态码判断token有没有过期，若过期，跳到登录页面
+    if (res.data.code === 1013) {
+        localStorage.removeItem("annieUser");
+        Cookies.remove('ANNIEKIDSUSS');
+        // router.push({
+        //     path: '/login'
+        // });
+    } else if (res.data.code === 0) {
+        message.error(res.data.msg);
+    } else if (res.data.code === 1012) {
+        // store.dispatch('common/setError', response.data.msg);
+        // this.$router.push({
+        //     path: '/error'
+        // });
+    }
     return res
 }, err => {
     if (err.config.headers.isLoading !== false) {
