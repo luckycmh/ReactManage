@@ -105,7 +105,7 @@ export default function () {
     }
     // 初始化请求数据
     useEffect(() => {
-        TableListApi();
+        // TableListApi();
     },[pageInfo.current,pageInfo.pageSize]);
     // 选择行数据配置
     const rowSelection = {

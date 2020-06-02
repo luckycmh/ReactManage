@@ -1,7 +1,8 @@
 import React from 'react';
 import {Row, Col, Divider } from 'antd';
-import utils from "../../utils/utils";
+import {Utils} from "../../utils/utils";
 import './index.less'
+const utils = new Utils();
 
 export default class Header extends React.Component {
     UNSAFE_componentWillMount() {
