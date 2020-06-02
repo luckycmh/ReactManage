@@ -1,11 +1,14 @@
 import React, {useState,useEffect,useLayoutEffect} from 'react';
+import { useDispatch } from 'react-redux';
 import {Form, Input, Button, Checkbox} from "antd";
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
 import { useHistory } from 'react-router-dom'
 import Cookies from 'js-cookie'
-import './index.less'
 import {login} from '../../apis/common'
 import {Utils} from "../../utils/utils";
+import {userInfo} from '../../redux/common/actions'
+import './index.less'
+
 const utils = new Utils();
 
 const Item = Form.Item;
@@ -13,7 +16,8 @@ const Item = Form.Item;
 export default function () {
     const [telephone,setTelephone] = useState('');
     const [password,setPassword] = useState('');
-    const history = useHistory()
+    const history = useHistory();
+    const dispatch = useDispatch();
     const loginApi = async () => {
         let {data:{code,data}} = await login(telephone,password,0);
         if (code === 1) {
@@ -21,6 +25,7 @@ export default function () {
             let cookInfo = decodeData.data;
             Cookies.set(cookInfo.name, cookInfo.val, { expires: 1 });
             localStorage.setItem('annieUser', data);
+            dispatch(userInfo(decodeData));
             history.push('/');
         }
 

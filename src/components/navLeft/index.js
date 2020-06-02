@@ -1,48 +1,46 @@
-import React from 'react';
-import { Menu } from 'antd';
+import React,{useState,useEffect} from 'react';
+import {Menu} from 'antd';
 import {
     Link
 } from "react-router-dom";
+import {useSelector} from 'react-redux'
 import './navLeft.less'
-import menuList from '../../config/menuConfig'
-const { SubMenu } = Menu;
-function handleClick(e) {
-    console.log('click', e);
-}
-export default class NavLeft extends React.Component{
-    UNSAFE_componentWillMount() {
-        const menuTreeNode = this.renderMenu(menuList)
-        this.setState({
-            menuTreeNode
-        })
-    }
-    renderMenu = (data) => {
+
+const {SubMenu} = Menu;
+
+export default function () {
+    const [menuTree,setMenuTree] = useState([]);
+    
+    const {permissionInfo} = useSelector(state => state.userState);
+    const renderMenu = (data) => {
         return data.map(item => {
-            if (item.children) {
+            if (item.son && item.son.length) {
                 return (
-                    <SubMenu title={item.title} key={item.key}>
-                        { this.renderMenu(item.children)}
+                    <SubMenu title={item.MenuName} key={item.MenuName}>
+                        {renderMenu(item.son)}
                     </SubMenu>
                 )
             }
             return (
-                <Menu.Item title={item.title} key={item.key}>
-                    <Link to={item.key}>{item.title}</Link>
+                <Menu.Item title={item.MenuName} key={JSON.stringify(item)}>
+                    <Link to={item.WebUrl}>{item.MenuName}</Link>
                 </Menu.Item>
             )
         })
+    };
+    useEffect(() => {
+        if (permissionInfo !== undefined) {
+            setMenuTree(renderMenu(permissionInfo))
+        }
+    },[permissionInfo])
+    const handleClick = () => {
+        console.log('click', e);
     }
-    render() {
-        return (
-            <div className="menu-box">
-                <div className="logo">
-                    <img src="/assets/logo-ant.svg" alt=""/>
-                    <span className="text-des">iconmoon</span>
-                </div>
-                    <Menu onClick={handleClick} mode="vertical" theme="dark">
-                        {this.state.menuTreeNode}
-                    </Menu>
-            </div>
-        )
-    }
+    return (
+        <div className="menu-box">
+            <Menu onClick={handleClick} mode="inline" defaultSelectedKeys="" theme="dark">
+                {menuTree}
+            </Menu>
+        </div>
+    )
 }

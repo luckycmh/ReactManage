@@ -2,14 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN';
-
-import './style/reset.css';
 import RouterConfig from './router';
+import {Provider} from 'react-redux'
+import store from './redux/store'
+import './style/reset.css';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
     <ConfigProvider locale={zhCN}>
-        <RouterConfig />
+        <Provider store={store}>
+            <RouterConfig />
+        </Provider>
     </ConfigProvider>,
   document.getElementById('root')
 );
