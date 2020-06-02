@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import {login} from '../../apis/common'
 import {Utils} from "../../utils/utils";
-import {userInfo} from '../../redux/common/actions'
+import {handleUserInfo} from '../../redux/common/actions'
 import './index.less'
 
 const utils = new Utils();
@@ -24,8 +24,9 @@ export default function () {
             let decodeData = JSON.parse(utils.decrypt(data));
             let cookInfo = decodeData.data;
             Cookies.set(cookInfo.name, cookInfo.val, { expires: 1 });
-            localStorage.setItem('annieUser', data);
-            dispatch(userInfo(decodeData));
+            utils.resetRoutes(decodeData.permissionInfo);
+            localStorage.setItem('annieUser', JSON.stringify(decodeData));
+            dispatch(handleUserInfo(decodeData));
             history.push('/');
         }
 

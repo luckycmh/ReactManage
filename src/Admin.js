@@ -4,8 +4,7 @@ import Header from './components/header'
 import Footer from './components/footer'
 import NavLeft from './components/navLeft'
 import "./style/common.less"
-export default class Admin extends React.Component{
-    render() {
+export default function(props){
         return (
             <Row className="container">
                 <Col span={4}  className="nav-left">
@@ -14,11 +13,11 @@ export default class Admin extends React.Component{
                 <Col span={20} className="main">
                     <Header />
                     <div className="content">
-                        {this.props.children}
+                        {props.children}
                     </div>
                     <Footer />
                 </Col>
             </Row>
         )
-    }
+
 }

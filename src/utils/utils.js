@@ -92,13 +92,13 @@ class Utils {
      * @param {Object} menus 所有导航
      * @param {String} menuPath 当前路径path
      */
-    getCurrentTab(menus, menuPath) {
-        let currentNav = {};
+    getParent(menus, menuPath) {
+        let currentNav = '';
         const random = (menus, menuPath) => {
             for (let i = 0; i < menus.length; i++) {
                 let item = menus[i];
                 if (menuPath.indexOf(item.WebUrl) > -1) {
-                    currentNav = item;
+                    currentNav = item.MenuId + '';
                     break;
                 }
                 random(item.son, menuPath);
@@ -106,6 +106,23 @@ class Utils {
         }
         random(menus, menuPath);
         return currentNav;
+    }
+
+    /**
+     * 处理路由
+     * @param menus
+     */
+    resetRoutes(menus) {
+        menus.forEach(item => {
+            if (item.son && item.son.length) {
+                this.resetRoutes(item.son);
+            } else {
+                if (item.WebUrl) {
+                    item.WebUrl = '/admin' + item.WebUrl;
+                }
+            }
+
+        })
     }
     /**
      * 加密

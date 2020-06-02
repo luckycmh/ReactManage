@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch} from "react-redux";
-import {userInfo} from './redux/common/actions'
-import {Utils} from "./utils/utils";
-const utils = new Utils()
+import {handleUserInfo} from './redux/common/actions'
 export default function (props) {
     const [loading, setLoading] = useState(true)
     const dispatch = useDispatch();
@@ -12,8 +10,8 @@ export default function (props) {
     useEffect(() => {
         if (!loading) {
             if (localStorage.getItem('annieUser')) {
-                let decodeData = JSON.parse(utils.decrypt(localStorage.getItem('annieUser')));
-                dispatch(userInfo(decodeData))
+                let decodeData = JSON.parse(localStorage.getItem('annieUser'));
+                dispatch(handleUserInfo(decodeData))
             }
         }
     },[loading])
