@@ -111,6 +111,8 @@ class Utils {
                     }
                 }
                 this.getParent(menus[child].son, menuPath);
+            } else {
+                menuName = menus[child].MenuName;
             }
         }
         return menuName

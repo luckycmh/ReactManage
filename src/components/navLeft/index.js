@@ -15,8 +15,10 @@ export default function () {
     //当前路由导航
     const {pathname} = useLocation();
     // 导航按钮 状态redux
-    const {permissionInfo} = useSelector(state => state.userState);
-    const [open,setOpen] = useState([''])
+    const {permissionInfo} = useSelector(state => {
+        return state.userState
+    });
+    const [open,setOpen] = useState(['']);
     // 渲染导航结构
     const renderMenu = (data) => {
         if (!data) return;
@@ -37,24 +39,26 @@ export default function () {
             )
         })
     };
-    // const para = JSON.parse(localStorage.getItem('annieUser'));
-    // const open = para ?  [utils.getParent(para.permissionInfo,pathname)] : [''];
-    useMemo(() => {
-        console.log(document.getElementsByClassName('menu-box'))
-        console.log(permissionInfo)
-        //setOpen(utils.getParent(permissionInfo,pathname))
-    })
+    useEffect(() => {
+        if(permissionInfo){
+            setOpen([utils.getParent(permissionInfo, pathname)]);
+        }
+    }, [permissionInfo]);
+
     return (
         <div className="menu-box">
-            <Menu
-                mode="inline"
-                defaultSelectedKeys={[pathname]}
-                defaultOpenKeys={open}
-                theme="dark">
-                {
-                    renderMenu(permissionInfo)
-                }
-            </Menu>
+            {
+                open[0] && (<Menu
+                    mode="inline"
+                    defaultSelectedKeys={[pathname]}
+                    defaultOpenKeys={open}
+                    theme="dark"
+                >
+                    {
+                        renderMenu(permissionInfo)
+                    }
+                </Menu>)
+            }
         </div>
     )
 }
