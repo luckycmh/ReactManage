@@ -41,7 +41,11 @@ export default function () {
                 )
             }
             return (
-                <Menu.Item title={item.MenuName} key={item.WebUrl}>
+                <Menu.Item
+                    title={item.MenuName}
+                    key={item.WebUrl}
+                    icon={<IconFont type={item.IcoClass}/>}
+                >
                     <Link to={item.WebUrl}>{item.MenuName}</Link>
                 </Menu.Item>
             )
