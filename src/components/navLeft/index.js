@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {useLocation} from 'react-router-dom'
 import {Menu} from 'antd';
 import {
@@ -16,6 +16,7 @@ export default function () {
     const {pathname} = useLocation();
     // 导航按钮 状态redux
     const {permissionInfo} = useSelector(state => state.userState);
+    const [open,setOpen] = useState([''])
     // 渲染导航结构
     const renderMenu = (data) => {
         if (!data) return;
@@ -36,9 +37,13 @@ export default function () {
             )
         })
     };
-    const para = JSON.parse(localStorage.getItem('annieUser'));
-    const open = para ?  [utils.getParent(para.permissionInfo,pathname)] : [''];
-
+    // const para = JSON.parse(localStorage.getItem('annieUser'));
+    // const open = para ?  [utils.getParent(para.permissionInfo,pathname)] : [''];
+    useMemo(() => {
+        console.log(document.getElementsByClassName('menu-box'))
+        console.log(permissionInfo)
+        //setOpen(utils.getParent(permissionInfo,pathname))
+    })
     return (
         <div className="menu-box">
             <Menu
