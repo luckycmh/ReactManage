@@ -3,6 +3,8 @@ import {useDispatch} from "react-redux";
 import Cookies from 'js-cookie'
 import {useHistory} from 'react-router-dom'
 import {handleUserInfo} from './redux/common/actions'
+import "./style/common.less"
+import "./style/iconfont.css"
 
 export default function (props) {
     const [loading, setLoading] = useState(true);

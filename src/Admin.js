@@ -3,7 +3,6 @@ import { Row, Col } from 'antd';
 import Header from './components/header'
 import Footer from './components/footer'
 import NavLeft from './components/navLeft'
-import "./style/common.less"
 export default function(props){
         return (
             <Row className="container">

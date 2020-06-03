@@ -4,7 +4,6 @@ export default function() {
     const [count, setCount] = useState(0);
     useEffect(() => {
         document.title = `You clicked ${count} times`;
-        console.log(count)
     });
 
     return (
