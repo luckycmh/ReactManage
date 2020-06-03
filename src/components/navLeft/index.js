@@ -6,11 +6,17 @@ import {
 } from "react-router-dom";
 import {useSelector} from 'react-redux'
 import {Utils} from "../../utils/utils";
+import iconFont from "../../utils/iconfont"
+import { createFromIconfontCN } from '@ant-design/icons';
+
 import './navLeft.less'
 
 const {SubMenu} = Menu;
 const utils = new Utils()
 
+const IconFont = createFromIconfontCN({
+    scriptUrl: iconFont,
+});
 export default function () {
     //当前路由导航
     const {pathname} = useLocation();
@@ -27,7 +33,9 @@ export default function () {
                 return (
                     <SubMenu
                         title={item.MenuName}
-                        key={item.MenuName}>
+                        key={item.MenuName}
+                        icon={<IconFont type={item.IcoClass}/>}
+                    >
                         {renderMenu(item.son)}
                     </SubMenu>
                 )

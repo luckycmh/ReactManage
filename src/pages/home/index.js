@@ -1,15 +1,16 @@
 import React,{useState, useEffect} from 'react';
+import iconFont from "../../utils/iconfont"
+import { createFromIconfontCN } from '@ant-design/icons';
 import './index.less'
+const IconFont = createFromIconfontCN({
+    scriptUrl: iconFont,
+});
 export default function() {
-    const [count, setCount] = useState(0);
-    useEffect(() => {
-        document.title = `You clicked ${count} times`;
-    });
+
 
     return (
         <div>
-            <p>You clicked {count} times</p>
-            <button onClick={() => setCount(count + 1)}>Click me</button>
+            <IconFont type="iconshouye" />
         </div>
     );
 }
