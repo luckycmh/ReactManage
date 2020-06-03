@@ -44,7 +44,7 @@ export default function () {
                 <Menu.Item
                     title={item.MenuName}
                     key={item.WebUrl}
-                    icon={<IconFont type={item.IcoClass}/>}
+                    icon={<IconFont type={item.IcoClass ? item.IcoClass: 'icon-default'}/>}
                 >
                     <Link to={item.WebUrl}>{item.MenuName}</Link>
                 </Menu.Item>
