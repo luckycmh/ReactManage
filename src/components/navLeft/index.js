@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {useLocation} from 'react-router-dom'
 import {Menu} from 'antd';
 import {
     Link
 } from "react-router-dom";
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector} from 'react-redux'
 import {Utils} from "../../utils/utils";
 import './navLeft.less'
 
@@ -14,14 +14,12 @@ const utils = new Utils()
 export default function () {
     //当前路由导航
     const {pathname} = useLocation();
-    // 导航按钮栏 状态
-    const [menuTreeNode, setMenuTreeNode] = useState([]);
     // 导航按钮 状态redux
     const {permissionInfo} = useSelector(state => state.userState);
-    // 高亮按钮 state
-    const [lightTab] = useState(pathname);
+    // 渲染导航结构
     const renderMenu = (data) => {
-        return data.map((item, index) => {
+        if (!data) return;
+        return data.map((item) => {
             if (item.son && item.son.length) {
                 return (
                     <SubMenu
@@ -38,28 +36,19 @@ export default function () {
             )
         })
     };
-    //初始化菜单
-    useEffect(() => {
-        if (permissionInfo !== undefined) {
-            setMenuTreeNode(renderMenu(permissionInfo));
-        }
-    }, [permissionInfo]);
+    const para = JSON.parse(localStorage.getItem('annieUser'));
+    const open = para ?  [utils.getParent(para.permissionInfo,pathname)] : [''];
 
-    // 导航点击事件
-    const handleClick = (e) => {
-        console.log('click', e);
-    }
     return (
         <div className="menu-box">
             <Menu
-                onClick={(e) => {
-                    handleClick(e)
-                }}
                 mode="inline"
-                defaultSelectedKeys={[lightTab]}
-                // defaultOpenKeys={[defaultOpen]}
+                defaultSelectedKeys={[pathname]}
+                defaultOpenKeys={open}
                 theme="dark">
-                {menuTreeNode}
+                {
+                    renderMenu(permissionInfo)
+                }
             </Menu>
         </div>
     )

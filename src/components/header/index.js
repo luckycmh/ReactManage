@@ -7,14 +7,15 @@ const utils = new Utils();
 export default class Header extends React.Component {
     UNSAFE_componentWillMount() {
         this.setState({
-            userName: '管理员'
+            userName: '管理员',
+            sysTime: ''
         });
-        setInterval(()=>{
-            let sysTime = utils.formatDate(new Date().getTime());
-            this.setState({
-                sysTime
-            })
-        },1000);
+        // setInterval(()=>{
+        //     let sysTime = utils.formatDate(new Date().getTime());
+        //     this.setState({
+        //         sysTime
+        //     })
+        // },1000);
         //this.getWeatherApi();
     }
 

@@ -40,7 +40,7 @@ axios.interceptors.request.use(config => {
     //获取cookie
     let ANNIEKIDSUSS = Cookies.get('ANNIEKIDSUSS');
     ANNIEKIDSUSS ? config.headers['ANNIEKIDSUSS'] = ANNIEKIDSUSS : '';
-    userId = localStorage.getItem('annieUser') ? JSON.parse(utils.decrypt(localStorage.getItem('annieUser'))).userId : '';
+    userId = localStorage.getItem('annieUser') ? JSON.parse(localStorage.getItem('annieUser')).userId : '';
     // 才创建loading, 避免重复创建
     if (config.headers.isLoading !== false) {
         showLoading()
@@ -70,10 +70,8 @@ axios.interceptors.request.use(config => {
     }
     return config
 }, err => {
-    // 判断当前请求是否设置了不显示Loading
-    if (err.config.headers.isLoading !== false) {
-        hideLoading()
-    }
+    // hideLoading()
+
     return Promise.reject(err)
 })
 
@@ -100,9 +98,8 @@ axios.interceptors.response.use(res => {
     }
     return res
 }, err => {
-    if (err.config.headers.isLoading !== false) {
-        hideLoading()
-    }
+    // hideLoading()
+
     if (err.message === 'Network Error') {
         message.warning('网络连接异常！')
     }
