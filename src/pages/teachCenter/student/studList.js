@@ -2,12 +2,23 @@ import React,{useState} from 'react'
 import { Row, Col, Button, Space,Form,Input,Select,Badge  } from 'antd';
 import {SearchOutlined} from '@ant-design/icons'
 import CusBread from '../../../components/bread'
-import {breadList} from "./data";
+import {breadList,searchData} from "./data";
 import {statusConf} from "./config";
 
 export default function() {
     // 引用表单
     const [form] = Form.useForm();
+    const [pageInfo,setPageInfo] = useState({
+        current: 1,
+        pageSize: 10,
+        total:0,
+        totalPage:0
+    });
+    const [search,setSearch] = useState({
+        name: '',
+        userName: '',
+        courseStatus: ''
+    });
     // 搜索表单搜索
     const handleFinish = (values) => {
         console.log(values);
@@ -56,7 +67,7 @@ export default function() {
             </Space>
         }
     ];
-    
+
 
 
     return (
@@ -129,8 +140,18 @@ export default function() {
                                         学员状态：
                                     </div>
                                     <div className="td">
-                                        <Select>
-                                            <Select.Option value="全部">全部</Select.Option>
+                                        <Select defaultValue="">
+                                            {
+                                                searchData.map(item =>
+                                                    <Select.Option
+                                                        value={item.value}
+                                                        key={item.label}
+                                                    >
+                                                        {item.label}
+                                                    </Select.Option>
+                                                )
+                                            }
+
                                         </Select>
                                     </div>
                                 </li>
