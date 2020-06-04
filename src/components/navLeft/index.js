@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom'
-import {Menu} from 'antd';
+import {Menu,Badge } from 'antd';
 import {
     Link
 } from "react-router-dom";
@@ -46,7 +46,12 @@ export default function () {
                     key={item.WebUrl}
                     icon={<IconFont type={item.IcoClass ? item.IcoClass: 'icon-default'}/>}
                 >
-                    <Link to={item.WebUrl}>{item.MenuName}</Link>
+                    <Link to={item.WebUrl}>
+                        {!item.IcoClass && <Badge status="default"/>}
+                        {
+                            item.MenuName
+                        }
+                    </Link>
                 </Menu.Item>
             )
         })

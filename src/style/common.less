@@ -1,17 +1,22 @@
+@import "iconfont.css";
 @import "./default.less";
-#root,.App{
+
+#root, .App {
   width: 100%;
   height: 100%;
 }
 
-.ant-form-item{
+.ant-form-item {
   margin-bottom: 20px;
 }
-.ant-form-item-with-help{
+
+.ant-form-item-with-help {
   margin-bottom: 0;
 }
+
 .container {
-  .nav-left{
+  // 左侧导航
+  .nav-left {
     position: fixed;
     width: 16.66666667%;
     top: 0;
@@ -19,13 +24,135 @@
     left: 0;
     background-color: #001529;
   }
+
+  // 中间内容
   .main {
     margin-left: 16.66666667%;
     overflow: auto;
-    background-color: @colorL;
-    .content{
-      margin-top: 20px;
+    padding-top: 60px;
+    .content {
+      padding: 0 20px;
+    }
+  }
+
+  // v-box 布局
+  .v-box {
+    .hd {
+      height: 50px;
+      line-height: 50px;
+
+      h2 {
+        float: left;
+        color: #303133;
+        font-size: 18px;
+        font-weight: 500;
+      }
+
+      .square {
+        &:before {
+          display: inline-block;
+          content: "";
+          width: 8px;
+          height: 8px;
+          background-color: #FF8C15;
+          margin-right: 8px;
+        }
+      }
+    }
+
+    .bd {
+      padding: 20px 28px;
       background-color: #fff;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .no-pd {
+      padding: 0;
+    }
+  }
+
+  //  s-query
+  .s-query {
+    overflow: hidden;
+
+    .no-mb {
+      margin-bottom: 0;
+    }
+
+    > li {
+      width: 460px;
+      float: left;
+      line-height: 40px;
+      margin-right: 40px;
+      margin-bottom: 20px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      > .th {
+        float: left;
+        font-size: 16px;
+        color: #303133;
+        line-height: 40px;
+      }
+
+      .required {
+        &:before {
+          position: relative;
+          content: "*";
+          display: inline-block;
+          color: #F56C6C;
+          font-size: 20px;
+          top: 4px;
+        }
+
+      }
+
+      > .td {
+        overflow: hidden;
+        font-size: 16px;
+        color: #666;
+        text-align: left;
+      }
+
+    }
+
+    .area-li {
+      height: 120px;
+    }
+
+    .wd-400 {
+      width: 400px;
+    }
+
+    .wd-300 {
+      width: 300px;
+    }
+
+    .wd-600 {
+      width: 600px;
+    }
+
+    .wd-500 {
+      width: 500px;
+    }
+
+    .auto {
+      width: auto;
+    }
+
+    .full-width {
+      width: 100%;
+    }
+
+    .tip {
+      color: red;
+      line-height: 1.5;
     }
   }
 }
+
+
+

@@ -1,7 +1,109 @@
-.home {
-  height: calc(65vh);
-  font-size: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.entry{
+  .bd {
+    padding: 50px 60px;
+  }
+  .card-box {
+    text-align: left;
+    li {
+      display: inline-block;
+      width: 300px;
+      height: 140px;
+      box-shadow: 0px 2px 4px 2px rgba(233, 233, 233, 0.5);
+      border-radius: 4px;
+      margin-right: 20px;
+      margin-bottom: 20px;
+      padding: 28px 22px;
+      box-sizing: border-box;
+      cursor: pointer;
+      &:hover {
+        box-shadow: 0px 2px 4px 4px rgba(233, 233, 233, 0.7);
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+      .fl {
+        width: 82px;
+        height: 82px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .text-box {
+        overflow: hidden;
+        text-align: left;
+        padding-left: 24px;
+        padding-top: 12px;
+        .text {
+          color: #303133;
+          font-size: 16px;
+          margin-bottom: 6px;
+        }
+        .number {
+          color: #67c23a;
+          font-size: 30px;
+        }
+        .number.orange {
+          color: #ffcb27;
+        }
+        .circle::before {
+          position: relative;
+          content: "";
+          display: inline-block;
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          border: 1px solid #67c23a;
+          left: -6px;
+          top: 0;
+        }
+        .orange.circle::before {
+          border-color: #ffcb27;
+        }
+        .number.circle::before {
+          top: -5px;
+        }
+        .number.red,
+        .red.circle::before {
+          color: #f95552;
+        }
+        .number.yellow,
+        .red.yellow::before {
+          color: #ff8c15;
+        }
+      }
+    }
+  }
+  .tools {
+    li {
+      float: left;
+      width: 240px;
+      height: 140px;
+      box-shadow: 0px 2px 4px 2px rgba(233, 233, 233, 0.5);
+      border-radius: 4px;
+      padding: 20px 0;
+      box-sizing: border-box;
+      text-align: center;
+      cursor: pointer;
+      margin-right: 60px;
+      margin-bottom: 30px;
+      &:last-child{
+        margin-right: 0;
+      }
+      &:hover{
+        box-shadow: 0px 2px 4px 4px rgba(233, 233, 233, 0.7);
+      }
+      .icon-wrap{
+        margin-bottom: 16px;
+      }
+      .text{
+        font-size: 16px;
+        color: #303133;
+      }
+      .iconfont{
+        color: #FF8C15;
+        font-size: 40px;
+      }
+    }
+  }
 }
