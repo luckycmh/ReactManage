@@ -1,52 +1,72 @@
 import React from 'react';
-import {Row, Col, Divider } from 'antd';
+import {useSelector} from "react-redux";
+import {Popover} from 'antd';
+import {useHistory} from 'react-router-dom'
+import {DownOutlined, createFromIconfontCN} from '@ant-design/icons'
+import Cookies from "js-cookie";
+import iconFont from '../../utils/iconfont'
 import {Utils} from "../../utils/utils";
 import './index.less'
+
 const utils = new Utils();
-
-export default class Header extends React.Component {
-    UNSAFE_componentWillMount() {
-        this.setState({
-            userName: '管理员',
-            sysTime: ''
-        });
-        // setInterval(()=>{
-        //     let sysTime = utils.formatDate(new Date().getTime());
-        //     this.setState({
-        //         sysTime
-        //     })
-        // },1000);
-        //this.getWeatherApi();
+const IconFont = createFromIconfontCN(
+    {
+        scriptUrl: iconFont,
     }
+)
 
-
-    render() {
-        return (
-            <div className="header">
-                <Row className="top-part">
-                    <Col span={24} className="top-detail">
-                        <span>
-                            你好，{this.state.userName}
-                        </span>
-                        <a href="https://www.baidu.com/">退出</a>
-                    </Col>
-                </Row>
-                <Divider style={{margin: '0',borderTopColor:'#ffa940'}}/>
-                <Row className="bottom-part">
-                    <Col span={4} className="breadcrumb">
-                        首页
-                    </Col>
-                    <Col span={20} className="weather-box">
-                        <span className="date">
-                            {this.state.sysTime}
-                        </span>
-                        <span className="weather">
-                            <img src={this.state.weatherPic} alt=""/>
-                            {this.state.weatherText}
-                        </span>
-                    </Col>
-                </Row>
+export default function () {
+    const {userAvatar, nickName} = useSelector(state => state.userState);
+    const history = useHistory();
+    // setInterval(()=>{
+    //     let sysTime = utils.formatDate(new Date().getTime());
+    //     this.setState({
+    //         sysTime
+    //     })
+    // },1000);
+    //this.getWeatherApi();
+    const handleLogOut = () => {
+        localStorage.removeItem("annieUser");
+        Cookies.remove('ANNIEKIDSUSS');
+        history.push('/login');
+    }
+    const content = (
+        <div className="log-box" onClick={handleLogOut}>
+            <div className="text fl">
+                安全退出
             </div>
-        )
-    }
+            <div className="icon fr">
+                <IconFont type="iconlogout"/>
+            </div>
+        </div>
+    )
+    return (
+        <div className="header">
+            <div className="fr logout-div">
+                <Popover
+                    title=""
+                    content={content}
+                    trigger="hover"
+                    placement="bottom"
+                    arrowPointAtCenter={true}
+                    autoAdjustOverflow={true}
+                    getPopupContainer={() => document.getElementsByClassName("logout-div")[0]}
+                >
+                    <div className="pop-open">
+                        <DownOutlined/>
+                    </div>
+
+                </Popover>
+            </div>
+            <ul className="info-ul fr">
+                <li className="name-li">
+                    三星级 深圳福田安妮花土豆馆
+                </li>
+                <li className="user-li">
+                    <img src={userAvatar} alt=""/>
+                    {nickName}
+                </li>
+            </ul>
+        </div>
+    )
 }

@@ -71,7 +71,6 @@ axios.interceptors.request.use(config => {
     return config
 }, err => {
     // hideLoading()
-
     return Promise.reject(err)
 })
 
@@ -85,9 +84,7 @@ axios.interceptors.response.use(res => {
     if (res.data.code === 1013) {
         localStorage.removeItem("annieUser");
         Cookies.remove('ANNIEKIDSUSS');
-        // router.push({
-        //     path: '/login'
-        // });
+        window.location.href = '/login';
     } else if (res.data.code === 0) {
         message.error(res.data.msg);
     } else if (res.data.code === 1012) {
@@ -98,12 +95,11 @@ axios.interceptors.response.use(res => {
     }
     return res
 }, err => {
-    // hideLoading()
-
     if (err.message === 'Network Error') {
         message.warning('网络连接异常！')
     }
     if (err.code === 'ECONNABORTED') {
+        hideLoading();
         message.warning('请求超时，请重试')
     }
     return Promise.reject(err)

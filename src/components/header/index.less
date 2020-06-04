@@ -1,41 +1,59 @@
-.header{
+.header {
+  position: fixed;
+  top: 0;
+  left: 16.666%;
+  right: 0;
+  height: 60px;
   background-color: #fff;
   font-size: 16px;
-  .top-detail {
-    padding: 0 20px;
-    text-align: right;
-    height: 60px;
+  z-index: 99;
+
+  .info-ul {
+    overflow: hidden;
     line-height: 60px;
 
-    a{
-      margin-left: 40px;
-      font-size: 16px;
+    > li {
+      float: left;
+      padding: 0 30px;
     }
+
+    .name-li {
+      &:after {
+        position: relative;
+        display: inline-block;
+        content: " ";
+        width: 1px;
+        height: 20px;
+        top: 6px;
+        left: 27px;
+        background-color: #e8e8e8;
+      }
+    }
+
+    .user-li {
+      padding-right: 10px;
+      img {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        margin-top: 12px;
+        margin-right: 4px;
+      }
+    }
+
+
   }
-  .bottom-part {
-    height: 60px;
-    line-height: 60px;
-    padding: 0 20px;
-    text-align: right;
-    .breadcrumb{
-      text-align: center;
-      &:after{
-        position: absolute;
-        content: '';
-        left: 117px;
-        top: 60px;
-        border-top: 9px solid #ffffff;
-        border-left: 12px solid transparent;
-        border-right: 12px solid transparent;
-      }
+  .logout-div{
+    .pop-open {
+      padding: 0 40px 0 20px;
+      margin-top: 20px;
     }
-    .weather {
-      margin-left: 20px;
-      img{
-        margin-right: 10px;
-        width: 40px;
-        height: 25px;
-      }
+    .log-box {
+      width: 80px;
+      overflow: hidden;
+      line-height: 20px;
+      cursor: pointer;
     }
   }
 }
+

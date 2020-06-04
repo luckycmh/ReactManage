@@ -10,7 +10,7 @@ export default function (props) {
     const dispatch = useDispatch();
     const history = useHistory();
     // 设置加载状态为false
-    useEffect(() => {
+    useLayoutEffect(() => {
         setLoading(false);
     }, []);
     // 浏览器更新做redux同步更新
