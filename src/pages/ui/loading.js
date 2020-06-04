@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, Spin, Space, Alert  } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
-import './ui.less'
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} />;
 
 export default class Loading extends React.Component{

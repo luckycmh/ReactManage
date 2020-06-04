@@ -8,10 +8,6 @@ import {
     LeftOutlined,
     RightOutlined
 } from '@ant-design/icons';
-
-
-import './ui.less'
-
 class Buttons extends React.Component {
     state = {
         loading: true,

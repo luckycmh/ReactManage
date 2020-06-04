@@ -5,13 +5,19 @@
   width: 100%;
   height: 100%;
 }
-
+// 全局覆盖ant样式
 .ant-form-item {
   margin-bottom: 20px;
 }
 
 .ant-form-item-with-help {
   margin-bottom: 0;
+}
+.ant-select-selector{
+  text-align: left;
+}
+.ant-select {
+  width: 100%;
 }
 .bread-wrap{
   padding: 10px 0;
@@ -154,6 +160,48 @@
       color: red;
       line-height: 1.5;
     }
+  }
+
+//  头部导航
+  .top-bar {
+    height: 50px;
+    padding: 0 20px;
+    line-height: 48px;
+    background-color: #fff;
+    .bar-ul {
+      >li {
+        float: left;
+        border-bottom: 2px solid #ffffff;
+        color: #303133;
+        font-size: 16px;
+        padding: 0 10px;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+      .active{
+        border-bottom: 2px solid #FF8C15;
+        color: #FF8C15;
+      }
+
+    }
+
+  }
+//  margin-top值
+  .mt-10{
+    margin-top: 10px;
+  }
+  .mt-20{
+    margin-top: 20px;
+  }
+//  text-align 值
+  .ali-left{
+    text-align: left;
+  }
+  .ali-right{
+    text-align: right;
+  }
+  .ali-center{
+    text-align: center;
   }
 }
 
