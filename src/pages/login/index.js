@@ -1,8 +1,8 @@
-import React, {useState,useEffect,useLayoutEffect} from 'react';
-import { useDispatch } from 'react-redux';
+import React, {useState, useEffect, useLayoutEffect, useRef} from 'react';
+import {useDispatch} from 'react-redux';
 import {Form, Input, Button, Checkbox} from "antd";
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
-import { useHistory } from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import {login} from '../../apis/common'
 import {Utils} from "../../utils/utils";
@@ -14,16 +14,22 @@ const utils = new Utils();
 const Item = Form.Item;
 
 export default function () {
-    const [telephone,setTelephone] = useState('');
-    const [password,setPassword] = useState('');
+    const [telephone, setTelephone] = useState('');
+    const [password, setPassword] = useState('');
+    const [remember, setRemember] = useState(false);
+    const [isSub, setSub] = useState(false);
     const history = useHistory();
     const dispatch = useDispatch();
+    // 登录api
     const loginApi = async () => {
-        let {data:{code,data}} = await login(telephone,password,0);
+        let {data: {code, data}} = await login(telephone, password, 0);
         if (code === 1) {
+            if (remember) {
+                localStorage.setItem('remInfo', JSON.stringify({telephone, password, remember: true}))
+            }
             let decodeData = JSON.parse(utils.decrypt(data));
             let cookInfo = decodeData.data;
-            Cookies.set(cookInfo.name, cookInfo.val, { expires: 1 });
+            Cookies.set(cookInfo.name, cookInfo.val, {expires: 1});
             utils.resetRoutes(decodeData.permissionInfo);
             localStorage.setItem('annieUser', JSON.stringify(decodeData));
             dispatch(handleUserInfo(decodeData));
@@ -31,20 +37,29 @@ export default function () {
         }
 
     }
+    // 登录接口调用
     useEffect(() => {
-        if (telephone && password) {
+        if (isSub) {
             loginApi();
         }
-    },[telephone,password])
+    }, [isSub])
+    // 判断是否在登录状态跳转页面。是否有记住密码选项
     useLayoutEffect(() => {
         if (localStorage.getItem('annieUser') && Cookies.get('ANNIEKIDSUSS')) {
             history.push('/');
         }
-    }, [])
+    }, []);
+    //表单提交事件
     const onFinish = (values) => {
-        setTelephone(values.username);
+        setTelephone(values.telephone);
         setPassword(values.password);
+        setRemember(values.remember);
+        setSub(true);
     }
+    //初始化表单值
+    const localInfo = localStorage.getItem('remInfo');
+    const initialValues = localInfo ?
+        JSON.parse(localInfo) : {telephone: '', password: '', remember: false};
     return (
         <div className="login">
             <div className="bg"></div>
@@ -57,11 +72,11 @@ export default function () {
                     <Form
                         name="login_form"
                         className="login-form"
-                        initialValues={{remember: false}}
+                        initialValues={initialValues}
                         onFinish={onFinish}
                     >
                         <Item
-                            name="username"
+                            name="telephone"
                             rules={[
                                 {
                                     required: true,
