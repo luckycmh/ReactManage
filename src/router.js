@@ -9,7 +9,7 @@ import App from './App'
 import Login from './pages/login'
 import Admin from "./Admin";
 import Home from './pages/home'
-import Buttons from './pages/ui/buttons'
+import StudList from './pages/teachCenter/student/studList'
 import Modals from "./pages/ui/modals";
 import Loading from "./pages/ui/loading"
 import Notification from "./pages/ui/notification";
@@ -30,7 +30,7 @@ export default class RouterConfig extends React.Component{
                         <Admin>
                             <Switch>
                                 <Route path="/admin/main" component={Home}/>
-                                <Route path="/admin/ui/buttons" component={Buttons}/>
+                                <Route path="/admin/teachCenter/stud" component={StudList}/>
                                 <Route path="/admin/ui/modals" component={Modals}/>
                                 <Route path="/admin/ui/loadings" component={Loading}/>
                                 <Route path="/admin/ui/notification" component={Notification}/>
