@@ -1,8 +1,8 @@
-import React from 'react'
+import React,{memo} from 'react'
 import PropTypes from 'prop-types';
 import {Breadcrumb} from "antd";
 
-function CusBread({bread}) {
+const  CusBread = memo(({bread}) => {
     return (
         <div className="bread-wrap">
             <Breadcrumb separator=">">
@@ -13,10 +13,8 @@ function CusBread({bread}) {
             </Breadcrumb>
         </div>
     )
-}
-
+})
 CusBread.propTypes = {
     bread: PropTypes.array
 };
-
 export default CusBread

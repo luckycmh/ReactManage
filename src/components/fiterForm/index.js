@@ -1,11 +1,11 @@
-import React from 'react'
+import React,{memo} from 'react'
 import {Form, Select, Input, Button} from 'antd'
 import {SearchOutlined} from '@ant-design/icons'
 import PropTypes from 'prop-types'
 
 const Item = Form.Item;
 
-function FilterForm({formData,startSearch}) {
+const FilterForm = memo(({formData,startSearch}) => {
     const {itemArr, initialValues} = formData;
     const initForm = () => {
         const initData = [];
@@ -79,8 +79,7 @@ function FilterForm({formData,startSearch}) {
             </Form>
         </React.Fragment>
     )
-}
-
+})
 FilterForm.propTypes = {
     formData: PropTypes.object,
     startSearch: PropTypes.func

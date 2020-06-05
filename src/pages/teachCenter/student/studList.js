@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import {Row, Col, Button, Space, Badge, Table} from 'antd';
 import {Utils} from "../../../utils/utils";
 import CusBread from '../../../components/bread'
@@ -11,17 +11,14 @@ const utils = new Utils()
 
 export default function () {
     // 分页数据
-    const [pageInfo, setPageInfo] = useState({
-        pageSize: 10,
-        total: 0,
-        totalPage: 0
-    });
+    const page = useRef(1);
+    const total = useRef(0);
+    const pageSize = useRef(10);
     // 表格数据
-    const [dataList, SetDataList] = useState([]);
+    const [dataList, setDataList] = useState([]);
     // 选中的每行key值
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-    // 请求的页码
-    let current = 1;
+
     useEffect(() => {
         tableListApi();
     }, []);
@@ -52,20 +49,26 @@ export default function () {
             searchStatus: ''
         },
     };
-    const search = {
+    const [search,setSearch] = useState({
         name: '',
         userName: '',
         courseStatus: ''
-    };
-    // 搜索表单搜索
-    const startSearch = (values) => {
-        for (let k in search) {
-            search[k] = '';
-        }
-        values.searchStud === '1' ? search.name = values.searchText : search.userName = values.searchText;
-        search.courseStatus = values.searchStatus;
+    });
+    const startSearch = useCallback((values) => {
+        setSearch((search) => {
+            if ( values.searchStud === '1') {
+                search.name = values.searchText;
+                search.userName = '';
+            } else {
+                search.userName = values.searchText;
+                search.name = '';
+            }
+            search.courseStatus = values.searchStatus;
+            return search
+        });
+        page.current = 1;
         tableListApi();
-    };
+    }, []);
     // 表头
     const columns = [
         {
@@ -112,7 +115,7 @@ export default function () {
     ];
     // 表格改变
     const handleTableChange = (pagination) => {
-        current = pagination.current;
+        page.current = pagination.current;
         tableListApi();
     };
     let selectedRows = [];
@@ -125,19 +128,16 @@ export default function () {
     // 学员列表api
     async function tableListApi() {
         let {data: {code, data}} = await getTableList(
-            current,
-            pageInfo.pageSize,
+            page.current,
+            pageSize.current,
             search.courseStatus,
             search.name,
             search.userName
         );
         if (code === 1) {
             utils.addKey(data.list);
-            setPageInfo({
-                ...pageInfo,
-                total: data.total
-            });
-            SetDataList((dataList) => dataList = data.list);
+            total.current = data.total;
+            setDataList(data.list);
         }
     }
 
@@ -149,7 +149,7 @@ export default function () {
 
     return (
         <div className="stud-list">
-            <CusBread bread={breadList}/>
+            <CusBread bread={useMemo(() => breadList, [])}/>
             <Row>
                 <Col span={24}>
                     <div className="top-bar">
@@ -172,7 +172,7 @@ export default function () {
                     </Row>
                     <Row className="mt-20">
                         <Col span={24}>
-                            <FilterForm formData={formData} startSearch={startSearch}/>
+                            <FilterForm formData={useMemo(() => formData, [])} startSearch={startSearch}/>
                         </Col>
                     </Row>
                     <Row className="mt-20">
@@ -182,7 +182,8 @@ export default function () {
                                 dataSource={dataList}
                                 rowSelection={rowSelection}
                                 pagination={{
-                                    total: pageInfo.total,
+                                    current: page.current,
+                                    total: total.current,
                                     showQuickJumper: true,
                                     showSizeChanger: false,
                                     showTotal: total => {
