@@ -119,59 +119,67 @@ class Utils {
     }
 
 
-
-/**
- * 处理路由
- * @param menus
- */
-resetRoutes(menus)
-{
-    menus.forEach(item => {
-        if (item.son && item.son.length) {
-            this.resetRoutes(item.son);
-        } else {
-            if (item.WebUrl) {
-                item.WebUrl = '/admin' + item.WebUrl;
+    /**
+     * 处理路由
+     * @param menus
+     */
+    resetRoutes(menus) {
+        menus.forEach(item => {
+            if (item.son && item.son.length) {
+                this.resetRoutes(item.son);
+            } else {
+                if (item.WebUrl) {
+                    item.WebUrl = '/admin' + item.WebUrl;
+                }
             }
-        }
 
-    })
-}
-/**
- * 加密
- * @param {*} data
- */
-encrypt(data)
-{
-    let key = 'anniekids2020051';
-    let iv = '1221993112812340';
-    let cipher = crypto.createCipheriv('aes-128-cbc', key, iv);
-    let crypted = cipher.update(data, 'utf8', 'binary');
-    crypted += cipher.final('binary');
-    crypted = new Buffer(crypted, 'binary').toString('base64');
-    return crypted;
-}
-/**
- * 解密aes
- * @param {*} crypted
- */
-decrypt(crypted)
-{
-    let key = 'anniekids2020051';
-    let iv = '1221993112812340';
-    crypted = new Buffer(crypted, 'base64').toString('binary');
-    let decipher = crypto.createDecipheriv('aes-128-cbc', key, iv);
-    let decoded = decipher.update(crypted, 'binary', 'utf8');
-    decoded += decipher.final('utf8');
-    return decoded;
-}
-controlUrl = value => {
-    let url = "http://ossfile.anniekids.com";
-    if (value.startsWith("/test") || value.startsWith("/reso")) {
-        url = "http://mpfile.anniekids.com";
+        })
     }
-    return url;
-}
+
+    /**
+     * 加密
+     * @param {*} data
+     */
+    encrypt(data) {
+        let key = 'anniekids2020051';
+        let iv = '1221993112812340';
+        let cipher = crypto.createCipheriv('aes-128-cbc', key, iv);
+        let crypted = cipher.update(data, 'utf8', 'binary');
+        crypted += cipher.final('binary');
+        crypted = new Buffer(crypted, 'binary').toString('base64');
+        return crypted;
+    }
+
+    /**
+     * 解密aes
+     * @param {*} crypted
+     */
+    decrypt(crypted) {
+        let key = 'anniekids2020051';
+        let iv = '1221993112812340';
+        crypted = new Buffer(crypted, 'base64').toString('binary');
+        let decipher = crypto.createDecipheriv('aes-128-cbc', key, iv);
+        let decoded = decipher.update(crypted, 'binary', 'utf8');
+        decoded += decipher.final('utf8');
+        return decoded;
+    }
+
+    controlUrl = value => {
+        let url = "http://ossfile.anniekids.com";
+        if (value.startsWith("/test") || value.startsWith("/reso")) {
+            url = "http://mpfile.anniekids.com";
+        }
+        return url;
+    }
+    /**
+     * 表格增加key值
+     * @param list
+     * @returns {*}
+     */
+    addKey = (list) => {
+        if (!list.length) return;
+        return list.map(item => item.key = item.id)
+    }
 
 
 }

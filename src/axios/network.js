@@ -10,19 +10,24 @@ import {
     Utils
 } from '../utils/utils'
 const utils = new Utils();
-// 响应时间
-axios.defaults.timeout = 5000;
-// 配置请求头
-axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 let baseURL;
 // 地址待更换
 if (window.location.host === 'teacherhomeworkweb.anniekids.com') {
     // 线上
     baseURL = 'https://homeworkapi.anniekids.com';
 } else {
-    baseURL = 'https://portalapi.anniekids.com';
+    baseURL = 'https://testclassapi.anniekids.com';
 }
-axios.defaults.baseURL = baseURL;
+//获取cookie
+let ANNIEKIDSUSS = Cookies.get('ANNIEKIDSUSS');
+const network = axios.create({
+    baseURL: baseURL,
+    timeout: '60000',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        ANNIEKIDSUSS
+    }
+})
 //显示loading
 const showLoading = () => {
     let dom = document.createElement('div')
@@ -34,13 +39,10 @@ const showLoading = () => {
 const hideLoading = () => {
     document.body.removeChild(document.getElementById('loading'))
 }
-// 获取userId
-let userId = '';
-axios.interceptors.request.use(config => {
-    //获取cookie
-    let ANNIEKIDSUSS = Cookies.get('ANNIEKIDSUSS');
-    ANNIEKIDSUSS ? config.headers['ANNIEKIDSUSS'] = ANNIEKIDSUSS : '';
-    userId = localStorage.getItem('annieUser') ? JSON.parse(localStorage.getItem('annieUser')).userId : '';
+
+network.interceptors.request.use(config => {
+
+    let {userId,mobile} = localStorage.getItem('annieUser') ? JSON.parse(localStorage.getItem('annieUser')) : '';
     // 才创建loading, 避免重复创建
     if (config.headers.isLoading !== false) {
         showLoading()
@@ -48,23 +50,23 @@ axios.interceptors.request.use(config => {
     if (config.method === 'post') {
         config.data = {
             time: parseInt((new Date()).getTime() / 1000),
-            SystemType: 2,
             userId,
+            number:mobile,
             ...config.data
         };
         let filtered = utils.filterParams(config.data);
-        let signed = utils.getSign(filtered) + '&annieportalkey=0f977b6090bc11e89de47ef7fbe91ebc';
+        let signed = utils.getSign(filtered) + '&annieteachingkey=8ec7a5141975d86854aa474eb0b3e7ff';
         config.data.signature = Base64.encode(md5(signed));
         config.data = qs.stringify(config.data);
     }else if (config.method === 'get') {
         config.params = {
             time: parseInt((new Date()).getTime() / 1000),
-            SystemType: 2,
             userId,
+            number:mobile,
             ...config.params
         };
         let filtered = utils.filterParams(config.params);
-        let signed = utils.getSign(filtered) + '&annieportalkey=0f977b6090bc11e89de47ef7fbe91ebc';
+        let signed = utils.getSign(filtered) + '&annieteachingkey=8ec7a5141975d86854aa474eb0b3e7ff';
         config.params.signature = Base64.encode(md5(signed));
 
     }
@@ -75,7 +77,7 @@ axios.interceptors.request.use(config => {
 })
 
 // 返回后拦截
-axios.interceptors.response.use(res => {
+network.interceptors.response.use(res => {
     // 判断当前请求是否设置了不显示Loading
     if (res.config.headers.isLoading !== false) {
         hideLoading()
@@ -100,9 +102,8 @@ axios.interceptors.response.use(res => {
         message.warning('网络连接异常！')
     }
     if (err.code === 'ECONNABORTED') {
-
         message.warning('请求超时，请重试')
     }
     return Promise.reject(err)
 })
-export {axios}
+export {network}
