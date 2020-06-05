@@ -7,30 +7,43 @@ const breadList = [
         name: '学员列表'
     }
 ];
-//搜索数据
-const searchData = [
+// 学员姓名or编号选择数据
+const studData = [
     {
-        label: '全部',
+        value: '1',
+        text: '学员姓名'
+    },
+    {
+        value: '2',
+        text: '学员编号'
+    }
+
+];
+//学员课程状态搜索数据
+const statusData = [
+    {
+        text: '全部',
         value: ''
     },
     {
-        label: '在读',
+        text: '在读',
         value: '1'
     },
     {
-        label: '停课',
+        text: '停课',
         value: '2'
     },
     {
-        label: '结课',
+        text: '结课',
         value: '3'
     },
     {
-        label: '无课',
+        text: '无课',
         value: '0'
     }
 ]
 export {
     breadList,
-    searchData
+    studData,
+    statusData
 }

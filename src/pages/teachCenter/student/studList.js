@@ -1,20 +1,17 @@
 import React, {useEffect, useState} from 'react'
-import {Row, Col, Button, Space, Form, Input, Select, Badge, Table} from 'antd';
-import {SearchOutlined} from '@ant-design/icons'
+import {Row, Col, Button, Space, Badge, Table} from 'antd';
 import {Utils} from "../../../utils/utils";
 import CusBread from '../../../components/bread'
-import {breadList, searchData} from "./data";
+import FilterForm from '../../../components/fiterForm'
+import {breadList, studData, statusData} from "./data";
 import {statusConf} from "./config";
 import {getTableList} from '../../../apis/teachCenter/student'
 
 const utils = new Utils()
 
 export default function () {
-    // 引用表单
-    const [form] = Form.useForm();
     // 分页数据
     const [pageInfo, setPageInfo] = useState({
-        current: 1,
         pageSize: 10,
         total: 0,
         totalPage: 0
@@ -23,22 +20,50 @@ export default function () {
     const [dataList, SetDataList] = useState([]);
     // 选中的每行key值
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+    // 请求的页码
+    let current = 1;
     useEffect(() => {
         tableListApi();
-    },[pageInfo.current])
+    }, []);
+    // 初始化表单数据
+    const formData = {
+        itemArr: [
+            {
+                type: 'SELECT',
+                name: 'searchStud',
+                placeholder: '',
+                data: studData
+            },
+            {
+                type: 'INPUT',
+                name: 'searchText',
+                placeholder: ''
+            },
+            {
+                type: 'SELECT',
+                name: 'searchStatus',
+                placeholder: '',
+                data: statusData
+            }
+        ],
+        initialValues: {
+            searchStud: '1',
+            searchText: '',
+            searchStatus: ''
+        },
+    };
     const search = {
         name: '',
         userName: '',
         courseStatus: ''
     };
     // 搜索表单搜索
-    const handleFinish = (values) => {
+    const startSearch = (values) => {
         for (let k in search) {
             search[k] = '';
         }
-        values.searchType === '1' ? search.name = values.filterText : search.userName = values.filterText;
-        search.courseStatus = values.studStatus;
-        console.log('search', search)
+        values.searchStud === '1' ? search.name = values.searchText : search.userName = values.searchText;
+        search.courseStatus = values.searchStatus;
         tableListApi();
     };
     // 表头
@@ -87,29 +112,31 @@ export default function () {
     ];
     // 表格改变
     const handleTableChange = (pagination) => {
-        setPageInfo({...pageInfo,current: pagination.current});
+        current = pagination.current;
+        tableListApi();
     };
     let selectedRows = [];
     // 多选改变
-    const onSelectChange = (selectedRowKeys,selectedRows) => {
+    const onSelectChange = (selectedRowKeys, selectedRows) => {
         setSelectedRowKeys(selectedRowKeys);
         selectedRows = selectedRows;
     };
+
     // 学员列表api
-    async function tableListApi(){
+    async function tableListApi() {
         let {data: {code, data}} = await getTableList(
-            pageInfo.current,
+            current,
             pageInfo.pageSize,
             search.courseStatus,
             search.name,
             search.userName
         );
         if (code === 1) {
+            utils.addKey(data.list);
             setPageInfo({
                 ...pageInfo,
                 total: data.total
             });
-            utils.addKey(data.list);
             SetDataList((dataList) => dataList = data.list);
         }
     }
@@ -145,62 +172,7 @@ export default function () {
                     </Row>
                     <Row className="mt-20">
                         <Col span={24}>
-                            <Form
-                                form={form}
-                                name="filter-form"
-                                layout="inline"
-                                onFinish={handleFinish}
-                                initialValues={{
-                                    searchType: '1',
-                                    studStatus: ''
-                                }}
-                            >
-                                <Form.Item
-                                    name="searchType"
-                                >
-                                    <Select>
-                                        <Select.Option value="1">学员姓名</Select.Option>
-                                        <Select.Option value="2">学员编号</Select.Option>
-                                    </Select>
-                                </Form.Item>
-                                <Form.Item
-                                    name="filterText"
-                                >
-                                    <Input
-                                        prefix={<SearchOutlined/>}
-                                        placeholder="请输入查询"
-                                        allowClear
-                                        autoComplete="off"
-                                    />
-                                </Form.Item>
-                                <Form.Item
-                                    name="studStatus"
-                                >
-                                    <Select>
-                                        {
-                                            searchData.map(item =>
-                                                <Select.Option
-                                                    value={item.value}
-                                                    key={item.label}
-                                                >
-                                                    {item.label}
-                                                </Select.Option>
-                                            )
-                                        }
-
-                                    </Select>
-                                </Form.Item>
-                                <Form.Item>
-                                    <Button
-                                        type="primary"
-                                        htmlType="submit"
-                                    >
-                                        搜索
-                                    </Button>
-                                </Form.Item>
-                            </Form>
-
-
+                            <FilterForm formData={formData} startSearch={startSearch}/>
                         </Col>
                     </Row>
                     <Row className="mt-20">
@@ -211,10 +183,8 @@ export default function () {
                                 rowSelection={rowSelection}
                                 pagination={{
                                     total: pageInfo.total,
-                                    current: pageInfo.current,
                                     showQuickJumper: true,
                                     showSizeChanger: false,
-                                    defaultPageSize: pageInfo.pageSize,
                                     showTotal: total => {
                                         return `共${total}条数据`;
                                     }
