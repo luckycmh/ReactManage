@@ -124,7 +124,10 @@ export default function () {
         setSelectedRowKeys(selectedRowKeys);
         selectedRows = selectedRows;
     };
-
+    // 新建学员
+    const addStud = () => {
+        
+    };
     // 学员列表api
     async function tableListApi() {
         let {data: {code, data}} = await getTableList(
@@ -164,7 +167,7 @@ export default function () {
                     <Row>
                         <Col span={24} className="ali-left">
                             <Space>
-                                <Button type="primary">新建</Button>
+                                <Button type="primary" onClick={addStud}>新建</Button>
                                 <Button>批量分班</Button>
                                 <Button>导出</Button>
                             </Space>
