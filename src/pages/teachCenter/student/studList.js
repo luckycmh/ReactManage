@@ -49,23 +49,21 @@ export default function () {
             searchStatus: ''
         },
     };
-    const [search,setSearch] = useState({
+    const search = {
         name: '',
         userName: '',
         courseStatus: ''
-    });
+    };
+
     const startSearch = useCallback((values) => {
-        setSearch((search) => {
-            if ( values.searchStud === '1') {
-                search.name = values.searchText;
-                search.userName = '';
-            } else {
-                search.userName = values.searchText;
-                search.name = '';
-            }
-            search.courseStatus = values.searchStatus;
-            return search
-        });
+        if (values.searchStud === '1') {
+            search.name = values.searchText;
+            search.userName = '';
+        } else {
+            search.userName = values.searchText;
+            search.name = '';
+        }
+        search.courseStatus = values.searchStatus;
         page.current = 1;
         tableListApi();
     }, []);
@@ -126,8 +124,9 @@ export default function () {
     };
     // 新建学员
     const addStud = () => {
-        
+
     };
+
     // 学员列表api
     async function tableListApi() {
         let {data: {code, data}} = await getTableList(
