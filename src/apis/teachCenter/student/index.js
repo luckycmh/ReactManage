@@ -9,13 +9,13 @@ const tableListUrl = '/api/v1/TeUser/userList';
  * @param {*} name
  * @param {*} userName
  */
-const getTableList = (page, pageSize, courseStatus, name, userName) => network.post(tableListUrl, {
+const getTableList = (page, pageSize, courseStatus, name, userName,{cancelToken}) => network.post(tableListUrl, {
     page,
     pageSize,
     courseStatus,
     name,
     userName
-});
+},{cancelToken});
 
 export {
     getTableList

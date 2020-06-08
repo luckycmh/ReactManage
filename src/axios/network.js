@@ -27,7 +27,7 @@ const network = axios.create({
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
         ANNIEKIDSUSS
     }
-})
+});
 //显示loading
 const showLoading = () => {
     let dom = document.createElement('div')
@@ -41,7 +41,6 @@ const hideLoading = () => {
 }
 
 network.interceptors.request.use(config => {
-
     let {userId,mobile} = localStorage.getItem('annieUser') ? JSON.parse(localStorage.getItem('annieUser')) : '';
     // 才创建loading, 避免重复创建
     if (config.headers.isLoading !== false) {
