@@ -14,6 +14,11 @@ export default function () {
     const page = useRef(1);
     const total = useRef(0);
     const pageSize = useRef(10);
+    const search = useRef({
+        name: '',
+        userName: '',
+        courseStatus: ''
+    });
     // 表格数据
     const [dataList, setDataList] = useState([]);
     // 选中的每行key值
@@ -49,21 +54,17 @@ export default function () {
             searchStatus: ''
         },
     };
-    const search = {
-        name: '',
-        userName: '',
-        courseStatus: ''
-    };
+
 
     const startSearch = useCallback((values) => {
         if (values.searchStud === '1') {
-            search.name = values.searchText;
-            search.userName = '';
+            search.current.name = values.searchText;
+            search.current.userName = '';
         } else {
-            search.userName = values.searchText;
-            search.name = '';
+            search.current.userName = values.searchText;
+            search.current.name = '';
         }
-        search.courseStatus = values.searchStatus;
+        search.current.courseStatus = values.searchStatus;
         page.current = 1;
         tableListApi();
     }, []);
@@ -132,9 +133,9 @@ export default function () {
         let {data: {code, data}} = await getTableList(
             page.current,
             pageSize.current,
-            search.courseStatus,
-            search.name,
-            search.userName
+            search.current.courseStatus,
+            search.current.name,
+            search.current.userName
         );
         if (code === 1) {
             utils.addKey(data.list);
