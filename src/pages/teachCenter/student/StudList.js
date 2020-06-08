@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {useHistory} from 'react-router-dom'
 import {Row, Col, Button, Space, Badge, Table} from 'antd';
 import Axios from 'axios'
 import {Utils} from "../../../utils/utils";
@@ -13,7 +14,8 @@ const utils = new Utils()
 export default function () {
     // 终止请求
     const source = useRef(null);
-
+    // 路由api
+    const history = useHistory();
     // 分页数据
     const page = useRef(1);
     const total = useRef(0);
@@ -73,7 +75,7 @@ export default function () {
         },
     };
 
-
+    // 搜索回调方法
     const startSearch = useCallback((values) => {
         if (values.searchStud === '1') {
             search.current.name = values.searchText;
@@ -143,7 +145,7 @@ export default function () {
     };
     // 新建学员
     const addStud = () => {
-
+        history.push('/admin/teachCenter/stud/addStud');
     };
 
     // 学员列表api

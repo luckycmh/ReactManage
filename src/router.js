@@ -9,7 +9,12 @@ import App from './App'
 import Login from './pages/login'
 import Admin from "./Admin";
 import Home from './pages/home'
-import StudList from './pages/teachCenter/student/studList'
+// 教务中心模块start
+import TeachCenter from './pages/teachCenter/Index'
+import StudList from './pages/teachCenter/student/StudList'
+import AddStud from './pages/teachCenter/student/AddStud'
+//教务中心模块end
+
 import Modals from "./pages/ui/modals";
 import Loading from "./pages/ui/loading"
 import Notification from "./pages/ui/notification";
@@ -20,30 +25,31 @@ import Table from './pages/table/Table'
 import Tab from './pages/ui/tabs'
 
 import NotFound from './pages/notFound'
-export default class RouterConfig extends React.Component{
+
+export default class RouterConfig extends React.Component {
     render() {
-        return(
+        return (
             <Router>
                 <App>
                     <Route path="/login" component={Login}/>
-                    <Route path="/admin" render={()=>
+                    <Route path="/admin" render={() =>
                         <Admin>
                             <Switch>
                                 <Route path="/admin/main" component={Home}/>
-                                <Route path="/admin/teachCenter/stud" component={StudList}/>
-                                <Route path="/admin/ui/modals" component={Modals}/>
-                                <Route path="/admin/ui/loadings" component={Loading}/>
-                                <Route path="/admin/ui/notification" component={Notification}/>
-                                <Route path="/admin/ui/messages" component={Message}/>
-                                <Route path="/admin/ui/tabs" component={Tab}/>
-                                <Route path="/admin/ui/gallery" component={Gallery}/>
-                                <Route path="/admin/form/login" component={FormLogin}/>
-                                <Route path="/admin/table/basic" component={Table}/>
+                                <Route path="/admin/teachCenter" render={() =>
+                                    <TeachCenter>
+                                        <Switch>
+                                            <Route exact path="/admin/teachCenter/stud" component={StudList}/>
+                                            <Route path="/admin/teachCenter/stud/addStud" component={AddStud}/>
+                                            <Route component={NotFound}/>
+                                        </Switch>
+                                    </TeachCenter>
+                                }/>
                                 <Route component={NotFound}/>
                             </Switch>
                         </Admin>
                     }/>
-                    <Route exact path="/" render={() => <Redirect to="/admin/main"/>} />
+                    <Route exact path="/" render={() => <Redirect to="/admin/main"/>}/>
                 </App>
             </Router>
         )

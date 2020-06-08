@@ -1,10 +1,21 @@
 // 前端写死的数据
 
-// 面包屑数据
+// 面包屑学员列表数据
 const breadList = [
     {
         href: '',
         name: '学员列表'
+    }
+];
+// 添加学员面包屑数据
+const addStudBread = [
+    {
+        href: '/admin/teachCenter/stud',
+        name: '学员列表'
+    },
+    {
+        href: '',
+        name: '添加学员'
     }
 ];
 // 学员姓名or编号选择数据
@@ -44,6 +55,7 @@ const statusData = [
 ]
 export {
     breadList,
+    addStudBread,
     studData,
     statusData
 }

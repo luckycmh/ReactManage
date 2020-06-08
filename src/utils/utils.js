@@ -103,19 +103,22 @@ class Utils {
     getParent(menus, menuPath) {
         if (!menus) return
         let menuName = '';
+        let menuKey = '';
         for (let child in menus) {
             if (menus[child].son.length > 0) {
                 for (let i = 0; i < menus[child].son.length; i++) {
-                    if (menus[child].son[i].WebUrl == menuPath) {
+                    if ( menuPath.indexOf(menus[child].son[i].WebUrl) > -1) {
                         menuName = menus[child].MenuName;
+                        menuKey = menus[child].son[i].WebUrl;
                     }
                 }
                 this.getParent(menus[child].son, menuPath);
             } else {
                 menuName = menus[child].MenuName;
+                menuKey = menus[child].WebUrl;
             }
         }
-        return menuName
+        return {menuName,menuKey}
     }
 
 

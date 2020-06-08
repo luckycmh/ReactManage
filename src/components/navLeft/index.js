@@ -24,7 +24,7 @@ export default function () {
     const {permissionInfo} = useSelector(state => {
         return state.userState
     });
-    const [open,setOpen] = useState(['']);
+    const [menuDef,setMenuDef] = useState({open:[''],key:['']})
     // 渲染导航结构
     const renderMenu = (data) => {
         if (!data) return;
@@ -58,17 +58,23 @@ export default function () {
     };
     useEffect(() => {
         if(permissionInfo){
-            setOpen([utils.getParent(permissionInfo, pathname)]);
+            const newState = {
+                open: [utils.getParent(permissionInfo, pathname).menuName],
+                key: [utils.getParent(permissionInfo, pathname).menuKey]
+            };
+            setMenuDef((menuDef) => {
+                return {...menuDef,...newState}
+            });
         }
     }, [permissionInfo]);
 
     return (
         <div className="menu-box">
             {
-                open[0] && (<Menu
+                menuDef.open[0] && menuDef.key[0] && (<Menu
                     mode="inline"
-                    defaultSelectedKeys={[pathname]}
-                    defaultOpenKeys={open}
+                    defaultSelectedKeys={menuDef.key}
+                    defaultOpenKeys={menuDef.open}
                     theme="dark"
                 >
                     {
