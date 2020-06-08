@@ -1,5 +1,5 @@
 import React, {useMemo, useState} from 'react'
-import {Form, Upload, message} from 'antd'
+import {Form, Upload, message, Input} from 'antd'
 import moment from 'moment'
 import CusBread from '../../../components/bread'
 import {addStudBread} from "./data";
@@ -35,6 +35,7 @@ export default function () {
         }
 
     };
+
     // 上传图片方法
     function uploadImg(file) {
         const imgObj = {
@@ -68,6 +69,14 @@ export default function () {
             return {...formData, headPhoto: '', headPhotoUrl: ''}
         });
     };
+    // 自定义校验手机号码
+    const validMobile = (rule,value,callback) => {
+        console.log(rule)
+        if (!value ) {
+            return Promise.reject('值不能为空');
+        }
+        return Promise.resolve('456');
+    }
 
     const uplodedBox = (
         <div className="uploaded">
@@ -107,6 +116,40 @@ export default function () {
                                     </Upload>
                             }
 
+                        </Form.Item>
+                        <Form.Item
+                            label="学员姓名"
+                            name="name"
+                            validateTrigger="onSubmit"
+                            rules={
+                                [
+                                    {
+                                        required: true,
+                                        message: ' ',
+                                    }
+                                ]
+                            }
+                        >
+                            <Input autoComplete="off"/>
+                        </Form.Item>
+                        <Form.Item
+                            label="英文姓名"
+                            name="EnglishName"
+                        >
+                            <Input autoComplete="off"/>
+                        </Form.Item>
+                        <Form.Item
+                            label="手机号码"
+                            name="phoneNumber"
+                            validateTrigger="onBlur"
+                            rules={[
+                                {
+                                    required: true,
+                                    validator: validMobile
+                                }
+                            ]}
+                        >
+                            <Input autoComplete="off"/>
                         </Form.Item>
                     </Form>
                 </div>
