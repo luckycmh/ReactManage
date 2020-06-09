@@ -99,7 +99,7 @@ export default function () {
                 return {
                     onClick: event => {
                         console.log(record);
-                        history.push(`/admin/teachCenter/stud/checkStud?id=${record.id}`);
+                        history.push(`/admin/teachCenter/stud/checkStud?id=${record.id}&username=${record.username}`);
                     },
                 }
             }

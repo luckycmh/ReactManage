@@ -6,7 +6,8 @@ import {checkStudBread} from './data'
 export default function() {
     const query = useQuery();
     const id = query.get('id');
-
+    const username = query.get('username');
+    console.log(id,username);
     return (
         <div className="check-stud">
             <CusBread bread={useMemo(() => checkStudBread,[])}></CusBread>
