@@ -18,6 +18,17 @@ const addStudBread = [
         name: '添加学员'
     }
 ];
+// 学员详情面包屑
+const checkStudBread = [
+    {
+        href: '/admin/teachCenter/stud',
+        name: '学员列表'
+    },
+    {
+        href: '',
+        name: '学员详情'
+    }
+];
 // 学员姓名or编号选择数据
 const studData = [
     {
@@ -56,6 +67,7 @@ const statusData = [
 export {
     breadList,
     addStudBread,
+    checkStudBread,
     studData,
     statusData
 }

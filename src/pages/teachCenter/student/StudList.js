@@ -93,7 +93,17 @@ export default function () {
         {
             title: '学员编号',
             dataIndex: 'username',
-            key: 'username'
+            key: 'username',
+            render: (username) => <span style={{color: '#FF8C15',cursor: 'pointer'}}>{username}</span>,
+            onCell: (record, rowIndex) => {
+                return {
+                    onClick: event => {
+                        console.log(record);
+                        history.push(`/admin/teachCenter/stud/checkStud?id=${record.id}`);
+                    },
+                }
+            }
+
         },
         {
             title: '姓名',

@@ -163,7 +163,10 @@ export default function () {
     const handleFinish = (values) => {
         addStudApi(values);
     };
-
+    // 取消
+    const handleCancel = () => {
+        history.push('/admin/teachCenter/stud');
+    };
     //添加学员接口
     async function addStudApi(values) {
         let province = '', city = '', county = '';
@@ -306,7 +309,7 @@ export default function () {
                         <Form.Item
                             {...tailLayout}
                         >
-                            <Button className="btn-footer mr-60">取消</Button>
+                            <Button className="btn-footer mr-60" onClick={handleCancel}>取消</Button>
                             <Button className="btn-footer" type="primary" htmlType="submit">确定</Button>
                         </Form.Item>
                     </Form>

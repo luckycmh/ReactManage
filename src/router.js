@@ -11,18 +11,14 @@ import Admin from "./Admin";
 import Home from './pages/home'
 // 教务中心模块start
 import TeachCenter from './pages/teachCenter/Index'
+// 学员列表
 import StudList from './pages/teachCenter/student/StudList'
+// 添加学员
 import AddStud from './pages/teachCenter/student/AddStud'
-//教务中心模块end
+// 查看学员
+import CheckStud from "./pages/teachCenter/student/CheckStud";
 
-import Modals from "./pages/ui/modals";
-import Loading from "./pages/ui/loading"
-import Notification from "./pages/ui/notification";
-import Message from './pages/ui/message'
-import Gallery from './pages/ui/gallery'
-import FormLogin from './pages/form/Login'
-import Table from './pages/table/Table'
-import Tab from './pages/ui/tabs'
+//教务中心模块end
 
 import NotFound from './pages/notFound'
 
@@ -41,6 +37,7 @@ export default class RouterConfig extends React.Component {
                                         <Switch>
                                             <Route exact path="/admin/teachCenter/stud" component={StudList}/>
                                             <Route path="/admin/teachCenter/stud/addStud" component={AddStud}/>
+                                            <Route path="/admin/teachCenter/stud/checkStud" component={CheckStud}/>
                                             <Route component={NotFound}/>
                                         </Switch>
                                     </TeachCenter>
