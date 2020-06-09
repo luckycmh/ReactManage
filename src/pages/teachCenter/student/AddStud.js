@@ -1,4 +1,5 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react'
+import React, { useMemo, useRef, useState} from 'react'
+import {useHistory} from 'react-router-dom'
 import {
     Form,
     Upload,
@@ -18,12 +19,14 @@ import {uploadInstance} from '../../../axios/uploadInstance'
 import {userId, userName} from "../../../consts";
 import {Utils} from "../../../utils/utils";
 import {cityJson} from '../../pca-codes'
-import {getPhoneUser} from '../../../apis/teachCenter/student'
+import {getPhoneUser, addStud} from '../../../apis/teachCenter/student'
 import './index.less'
 
 const utils = new Utils();
 
 export default function () {
+    // 路由
+    const history = useHistory();
     // 表单相关字段
     const [formData, setFormData] = useState({
         headPhoto: '',
@@ -106,7 +109,7 @@ export default function () {
         });
     };
     // 自定义校验手机号码
-    const [phone,setPhone] = useState('');
+    const [phone, setPhone] = useState('');
     // 记录是否已经校验
     const validRef = useRef(false);
     // 记录校验的状态 resolve / reject
@@ -114,6 +117,10 @@ export default function () {
     const validMobile = async (rule, value, callback) => {
         if (!value) {
             return Promise.reject(' ');
+        }
+        const reg=/^[1][3,4,5,7,8][0-9]{9}$/;
+        if (!reg.test(value)) {
+            return Promise.reject('输入的手机号不合法！');
         }
         setPhone(phone => phone = value);
         if (phone !== value) {
@@ -154,15 +161,34 @@ export default function () {
     };
     // 提交表单
     const handleFinish = (values) => {
-        console.log(values)
+        addStudApi(values);
     };
 
-    async function phoneUserApi(phone) {
-        let {data: {code, data}} = await getPhoneUser(phone);
-        if (code === 1 && data.length) {
-            utils.addKey(data);
-            setData(data);
-            setStudDia(true);
+    //添加学员接口
+    async function addStudApi(values) {
+        let province = '', city = '', county = '';
+        if (values.placeInfo.length) {
+            province = values.placeInfo[0];
+            city = values.placeInfo[1];
+            county = values.placeInfo[2];
+        }
+        let {data: {code, data}} = await addStud(
+            '-1',
+            formData.headPhoto,
+            values.name,
+            values.EnglishName,
+            values.phoneNumber,
+            values.sex,
+            values.birthday.format('YYYY-MM-DD'),
+            values.wechatNumber,
+            province,
+            city,
+            county,
+            values.address,
+            values.explain
+        );
+        if (code === 1) {
+            history.push('/admin/teachCenter/stud');
         }
     }
 
@@ -248,7 +274,7 @@ export default function () {
                             label="出生日期"
                             name="birthday"
                         >
-                            <DatePicker/>
+                            <DatePicker disabledDate={(current) => current >= moment().endOf('day') }/>
                         </Form.Item>
                         <Form.Item
                             label="微信号"
