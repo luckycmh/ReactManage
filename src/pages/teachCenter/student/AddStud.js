@@ -175,6 +175,9 @@ export default function () {
             city = values.placeInfo[1];
             county = values.placeInfo[2];
         }
+        if (values.sex) {
+            values.sex = values.sex === '1' ? '男': '女';
+        }
         let {data: {code, data}} = await addStud(
             '-1',
             formData.headPhoto,
