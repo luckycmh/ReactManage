@@ -43,7 +43,7 @@
     position: relative;
     .black-bar{
       position: absolute;
-      left: 20px;
+      left: 0;
       right: 0;
       height: 50px;
       background-color: #262939;
@@ -99,21 +99,38 @@
     }
     .custom-card {
       border-top: 2px solid #FF8C15;
-      .ant-empty-normal{
-        margin: 0;
-      }
-      .ant-table-thead > tr > th{
-        padding: 10px;
-      }
-      .ant-table-tbody > tr > td{
-        padding: 10px 10px 0;
+      margin-bottom: 20px;
+      .tip{
+        color: red;
       }
       .time-info {
         border-right: 1px solid #e5e5e5;
       }
+      .type{
+        color: #303133;
+      }
+      .type-green {
+        color: #67c23a;
+      }
+      .type-yellow {
+        color: #ffc015;
+      }
+      .type-red {
+        color: #ff6969;
+      }
+      .unstart {
+        background-color: #e5e5e5;
+        text-align: center;
+        min-height: 108px;
+        line-height: 108px;
+        font-size: 15px;
+      }
     }
     .ant-divider-vertical{
       border-left-color: #d8d8d8;
+    }
+    .ant-pagination {
+      text-align: right;
     }
   }
 

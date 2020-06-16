@@ -12,9 +12,18 @@ const studInGradeStatus = {
     '2': {text: '停课', type: 'error'},
     '3': {text: '结课', type: 'error'},
     '4': {text: '移出班级', type: 'error'}
-}
+};
+
+// 课程类型
+const classMode = {
+    '1': '线上',
+    '2': '双线',
+    '3': '面授'
+};
+
 
 export {
     statusConf,
-    studInGradeStatus
+    studInGradeStatus,
+    classMode
 }

@@ -83,5 +83,7 @@ const getStudGradeList = (page, username) => network.post(getStudGradeListUrl, {
 export {
     getTableList,
     getPhoneUser,
-    addStud
+    addStud,
+    getStud,
+    getStudGradeList
 }
