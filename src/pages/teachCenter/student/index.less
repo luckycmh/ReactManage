@@ -36,3 +36,85 @@
     cursor: pointer;
   }
 }
+
+// 学员详情样式
+.check-stud{
+  .main-box {
+    position: relative;
+    .black-bar{
+      position: absolute;
+      left: 20px;
+      right: 0;
+      height: 50px;
+      background-color: #262939;
+      padding-right: 20px;
+      line-height: 50px;
+    }
+    .stud-info {
+      position: relative;
+      top: 10px;
+      z-index: 2;
+      width: 280px;
+      margin: 0 auto 20px;
+      .photo {
+        display: block;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        margin: 0 auto;
+      }
+      .top-info {
+        text-align: center;
+        span {
+          display: inline-block;
+        }
+        font-size: 14px;
+        .name {
+          font-size: 18px;
+          color: #333;
+          font-weight: 700;
+        }
+        .gender {
+          margin-top: 4px;
+        }
+        .status {
+          width: 52px;
+          height: 20px;
+          background-color: #ff8c15;
+          border-radius: 10px;
+          color: #fff;
+          text-align: center;
+          line-height: 20px;
+          margin-top: 4px;
+        }
+      }
+      .other-info {
+        text-align: center;
+        font-size: 14px;
+        .more {
+          cursor: pointer;
+          color: #ff8c15;
+        }
+      }
+    }
+    .custom-card {
+      border-top: 2px solid #FF8C15;
+      .ant-empty-normal{
+        margin: 0;
+      }
+      .ant-table-thead > tr > th{
+        padding: 10px;
+      }
+      .ant-table-tbody > tr > td{
+        padding: 10px 10px 0;
+      }
+      .time-info {
+        border-right: 1px solid #e5e5e5;
+      }
+    }
+    .ant-divider-vertical{
+      border-left-color: #d8d8d8;
+    }
+  }
+
+}

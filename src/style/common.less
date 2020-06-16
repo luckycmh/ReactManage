@@ -25,6 +25,11 @@
 .ant-picker {
   width: 100%;
 }
+.ant-tabs-bar {
+  background-color: #fff;
+  padding: 0 20px;
+}
+
 // 覆盖全局样式end
 
 // margin-right
@@ -40,6 +45,12 @@
 .mr-60{
   margin-right: 60px;
 }
+// margin-right end
+// margin-bottom
+.mb-20{
+  margin-bottom: 20px;
+}
+
 .btn-footer{
   width: 120px;
 }
@@ -208,6 +219,27 @@
 
     }
 
+  }
+//  头部黑色bar
+  .opt-ul {
+    >li {
+      float: left;
+      font-size: 14px;
+      color: #fff;
+      cursor: pointer;
+    }
+    .active{
+      &:before{
+        position: relative;
+        display: inline-block;
+        content: "";
+        left: -3px;
+        top: 2px;
+        width: 1px;
+        height: 14px;
+        background-color: #fff;
+      }
+    }
   }
 //  margin-top值
   .mt-10{

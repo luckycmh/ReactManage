@@ -5,6 +5,10 @@ const tableListUrl = '/api/v1/TeUser/userList';
 const phoneUserUrl = '/api/v1/TeUser/phoneUserList';
 // 添加/编辑学员url
 const addStudUrl = '/api/v1/TeUser/userAddSave';
+// 编辑学员初始化接口
+const getStudUrl = '/api/v1/TeUser/userInfo';
+// 查看学员已经加入的班级列表
+const getStudGradeListUrl = '/api/v1/TeUser/userClassList';
 /**
  * 获取table列表接口
  * @param {*} page
@@ -13,13 +17,13 @@ const addStudUrl = '/api/v1/TeUser/userAddSave';
  * @param {*} name
  * @param {*} userName
  */
-const getTableList = (page, pageSize, courseStatus, name, userName,{cancelToken}) => network.post(tableListUrl, {
+const getTableList = (page, pageSize, courseStatus, name, userName, {cancelToken}) => network.post(tableListUrl, {
     page,
     pageSize,
     courseStatus,
     name,
     userName
-},{cancelToken});
+}, {cancelToken});
 /**
  * 获取手机号下学员列表
  * @param {*} phone
@@ -58,6 +62,22 @@ const addStud = (id, headPhoto, name, EnglishName, phoneNumber, sex, birthday, w
     sex,
     wechatNumber,
     explain
+});
+/**
+ * 获取学员详情
+ * @param {*} id
+ */
+const getStud = (id) => network.post(getStudUrl, {
+    id
+});
+/**
+ * 查看学员已经加入的班级列表
+ * @param {*} page
+ * @param {*} username
+ */
+const getStudGradeList = (page, username) => network.post(getStudGradeListUrl, {
+    page,
+    username
 });
 
 export {
