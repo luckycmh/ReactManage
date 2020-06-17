@@ -1,11 +1,12 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import {Row, Col, Button, Descriptions, Tabs, Card, Divider, Badge, Table, Pagination} from 'antd'
 import {DownOutlined, UpOutlined} from '@ant-design/icons'
 import classnames from 'classnames'
 import CusBread from '../../../components/bread'
+import OperateDialog from "../../../components/teachCenter/studCheckDialogs";
 import {useQuery} from '../../../utils/tools'
 import {checkStudBread} from './data'
-import {statusConf, studInGradeStatus,classMode} from './config'
+import {statusConf, studInGradeStatus, classMode} from './config'
 import {getStud, getStudGradeList} from '../../../apis/teachCenter/student'
 import {Utils} from "../../../utils/utils";
 import './index.less'
@@ -30,12 +31,38 @@ export default function () {
         page: 1,
         total: 0
     });
+    // 当前课程信息
+    const [courseInfo, setCourseInfo] = useState({detail: {}, type: ''});
+    // 弹窗组件
+    const dialogRef = useRef(null);
+    // 子组件弹窗回调事件
+    const updateList = useCallback(() => {
+        getStudGradeListApi();
+    },[]);
     // 分页改变
-    const handlePageChange = (page,pageSize) => {
+    const handlePageChange = (page, pageSize) => {
         pageInfo.current.page = page;
         getStudGradeListApi();
     };
-
+    /**
+     * 改变课程状态
+     * @param item 当前课程信息
+     * @param type 课程要改变的状态
+     */
+    const handleCourseStatus = (item, type) => {
+        setCourseInfo((prev) => {
+            return {
+                detail: {...prev.detail, ...item},
+                type: prev.type = type
+            }
+        });
+        if (type == '2') {
+            //    停课
+            dialogRef.current.openStopClass();
+        } else if (type == '1') {
+            dialogRef.current.openReStart();
+        }
+    };
     // 页面初始化
     useEffect(() => {
         getStudInfoApi();
@@ -105,32 +132,50 @@ export default function () {
 
     /**
      * 卡片右侧结构
-     * @param status 课程状态
-     * @param suspensionTime 停课 结课
-     * @param removeTime 移出班级
+     * @param item 当前课程
      * @returns {*}
      */
 
-    const extraHtml = (status,suspensionTime,removeTime) => {
+    const extraHtml = (item) => {
+        const status = item.calssArr[0].openingstatus;
+        const {suspensionTime, removeTime} = item;
         return (
             <div className="btns-wrap">
                 {
-                    status == 1 && <Button className="mr-10">停课</Button>
+                    status == 1 &&
+                    <Button className="mr-10" onClick={() => {
+                        handleCourseStatus(item, '2')
+                    }}>停课</Button>
                 }
                 {
-                    status == 2 && <Button className="mr-10">复课</Button>
+                    status == 2 &&
+                    <Button className="mr-10" onClick={() => {
+                        handleCourseStatus(item, '1')
+                    }}>复课</Button>
                 }
                 {
-                    status == 1 && <Button className="mr-10">结课</Button>
+                    status == 1 &&
+                    <Button className="mr-10" onClick={() => {
+                        handleCourseStatus(item, '3')
+                    }}>结课</Button>
                 }
                 {
-                    (status == 1 || status == 0) && <Button className="mr-10">调班</Button>
+                    (status == 1 || status == 0) &&
+                    <Button className="mr-10" onClick={() => {
+                        handleCourseStatus(item, '')
+                    }}>调班</Button>
                 }
                 {
-                    (status == 1 || status == 0) && <Button className="mr-10">移出班级</Button>
+                    (status == 1 || status == 0) &&
+                    <Button className="mr-10" onClick={() => {
+                        handleCourseStatus(item, '1')
+                    }}>移出班级</Button>
                 }
                 {
-                    status == 4 && <Button className="mr-10">恢复班级</Button>
+                    status == 4 &&
+                    <Button className="mr-10" onClick={() => {
+                        handleCourseStatus(item, '0')
+                    }}>恢复班级</Button>
                 }
                 {
                     status == 2 && <span className="tip">{suspensionTime + '停课'}</span>
@@ -146,14 +191,14 @@ export default function () {
         );
     }
     // 卡片标题自定义
-    const titleHtml = (status,courseName) => {
+    const titleHtml = (status, courseName) => {
         return (
             <div className="fl cus-tit">
                 <span
-                    className={classnames('mr-10',{
-                        'type-green':status==2,
-                        'type-yellow':status==1,
-                        'type-red':status==3
+                    className={classnames('mr-10', {
+                        'type-green': status == 2,
+                        'type-yellow': status == 1,
+                        'type-red': status == 3
                     })}
                 >
                     {
@@ -199,40 +244,40 @@ export default function () {
     // 卡片内容结构
     const cardHtml = (listArr) => {
         return listArr.map(item =>
-                <Card
-                    key={item.id}
-                    title={titleHtml(item.courseType,item.courseName)}
-                    extra={item.calssArr.length ?
-                        extraHtml(item.calssArr[0].openingstatus,item.suspensionTime,item.removeTime)
-                        : ''
-                    }
-                    bordered={false}
-                    className="custom-card">
+            <Card
+                key={item.id}
+                title={titleHtml(item.courseType, item.courseName)}
+                extra={item.calssArr.length ?
+                    extraHtml(item)
+                    : ''
+                }
+                bordered={false}
+                className="custom-card">
 
-                    <Row className="card-cont" gutter={16}>
-                        <Col span={4}>
-                            <div className="time-info">
-                                <Descriptions column={1}>
-                                    <Descriptions.Item label="报名时间">{item.createTime}</Descriptions.Item>
-                                    <Descriptions.Item label="开班时间">{item.openingTime}</Descriptions.Item>
-                                    <Descriptions.Item label="网课课程">
-                                        <span>已激活</span>
-                                        <Divider type="vertical"/>
-                                        <Button type="primary" size="small">解除激活</Button>
-                                    </Descriptions.Item>
-                                </Descriptions>
-                            </div>
-                        </Col>
-                        <Col span={20}>
-                            {
-                                item.calssArr.length ?
-                                    <Table columns={columns} dataSource={item.calssArr} pagination={false}/> :
-                                    <div className="unstart">未开班</div>
-                            }
+                <Row className="card-cont" gutter={16}>
+                    <Col span={4}>
+                        <div className="time-info">
+                            <Descriptions column={1}>
+                                <Descriptions.Item label="报名时间">{item.createTime}</Descriptions.Item>
+                                <Descriptions.Item label="开班时间">{item.openingTime}</Descriptions.Item>
+                                <Descriptions.Item label="网课课程">
+                                    <span>已激活</span>
+                                    <Divider type="vertical"/>
+                                    <Button type="primary" size="small">解除激活</Button>
+                                </Descriptions.Item>
+                            </Descriptions>
+                        </div>
+                    </Col>
+                    <Col span={20}>
+                        {
+                            item.calssArr.length ?
+                                <Table columns={columns} dataSource={item.calssArr} pagination={false}/> :
+                                <div className="unstart">未开班</div>
+                        }
 
-                        </Col>
-                    </Row>
-                </Card>
+                    </Col>
+                </Row>
+            </Card>
         )
     };
 
@@ -296,7 +341,7 @@ export default function () {
                                     cardHtml(cardList)
                                 }
                                 <Pagination
-                                    defaultCurrent={pageInfo.current.page}
+                                    current={pageInfo.current.page}
                                     total={pageInfo.current.total}
                                     showTotal={() => `共${pageInfo.current.total}条数据`}
                                     showQuickJumper
@@ -314,6 +359,12 @@ export default function () {
                 </Row>
 
             </div>
+            {/*    弹窗结构 */}
+            <OperateDialog
+                courseInfo={useMemo(() => courseInfo, [courseInfo])}
+                updateList={updateList}
+                ref={dialogRef}
+            />
         </div>
     )
 }
