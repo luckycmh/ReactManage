@@ -19,7 +19,6 @@ export default function () {
     const query = useQuery();
     const id = query.get('id');
     const username = query.get('username');
-    console.log(id, username);
     // 是否展示更多信息
     const [more, setMore] = useState(false);
     // 学员信息
@@ -52,26 +51,34 @@ export default function () {
     const handleCourseStatus = (item, type) => {
         setCourseInfo((prev) => {
             return {
-                detail: {...prev.detail, ...item},
-                type: prev.type = type
+                detail: item,
+                type:type
             }
         });
-        if (type == '2') {
-            //    停课
-            dialogRef.current.openStopClass();
-        } else if (type == '1') {
-            dialogRef.current.openReStart();
-        } else if (type == '3') {
-            dialogRef.current.openEnd();
-        } else if (type == '') {
-            dialogRef.current.openTransit();
-        }
+
     };
     // 页面初始化
     useEffect(() => {
         getStudInfoApi();
         getStudGradeListApi();
     }, []);
+    // courseInfo传值改变
+    useEffect(() => {
+        if (Object.keys(courseInfo.detail).length) {
+            if (courseInfo.type == '2') {
+                //    停课
+                dialogRef.current.openStopClass();
+            } else if (courseInfo.type == '1') {
+                dialogRef.current.openReStart();
+            } else if (courseInfo.type == '3') {
+                dialogRef.current.openEnd();
+            } else if (courseInfo.type == '') {
+                dialogRef.current.openTransit();
+            } else if (courseInfo.type == 'in' || courseInfo.type == 'out') {
+                dialogRef.current.operateInOrOut();
+            }
+        }
+    },[courseInfo]);
 
     // 获取学员详情信息api
     async function getStudInfoApi() {
@@ -147,39 +154,39 @@ export default function () {
             <div className="btns-wrap">
                 {
                     status == 1 &&
-                    <Button className="mr-10" onClick={() => {
+                    <Button className="mr-10" onClick={() =>
                         handleCourseStatus(item, '2')
-                    }}>停课</Button>
+                    }>停课</Button>
                 }
                 {
                     status == 2 &&
-                    <Button className="mr-10" onClick={() => {
+                    <Button className="mr-10" onClick={() =>
                         handleCourseStatus(item, '1')
-                    }}>复课</Button>
+                    }>复课</Button>
                 }
                 {
                     status == 1 &&
-                    <Button className="mr-10" onClick={() => {
+                    <Button className="mr-10" onClick={() =>
                         handleCourseStatus(item, '3')
-                    }}>结课</Button>
+                    }>结课</Button>
                 }
                 {
                     (status == 1 || status == 0) &&
-                    <Button className="mr-10" onClick={() => {
+                    <Button className="mr-10" onClick={() =>
                         handleCourseStatus(item, '')
-                    }}>调班</Button>
+                    }>调班</Button>
                 }
                 {
                     (status == 1 || status == 0) &&
-                    <Button className="mr-10" onClick={() => {
+                    <Button className="mr-10" onClick={() =>
                         handleCourseStatus(item, 'out')
-                    }}>移出班级</Button>
+                    }>移出班级</Button>
                 }
                 {
                     status == 4 &&
-                    <Button className="mr-10" onClick={() => {
+                    <Button className="mr-10" onClick={() =>
                         handleCourseStatus(item, 'in')
-                    }}>恢复班级</Button>
+                    }>恢复班级</Button>
                 }
                 {
                     status == 2 && <span className="tip">{suspensionTime + '停课'}</span>

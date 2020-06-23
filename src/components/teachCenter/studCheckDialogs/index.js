@@ -1,14 +1,13 @@
 import React, {memo, useImperativeHandle, forwardRef, useState, useRef} from 'react'
 import {Modal, Select, Form, Input} from 'antd';
-import {changeStudStatus,getStudGradeIds} from "../../../apis/teachCenter/student";
-import {classListNoPage,addTrans} from "../../../apis/teachCenter/grade";
+import {changeStudStatus, getStudGradeIds, removeStud} from "../../../apis/teachCenter/student";
+import {classListNoPage, addTrans} from "../../../apis/teachCenter/grade";
 
 const {TextArea} = Input;
 const {Option} = Select;
 
 
 let OperateDialog = ({courseInfo, username, updateList}, ref) => {
-    console.log('子组件', courseInfo)
     const {detail} = courseInfo;
     // 停课弹窗
     const [stopClass, setStopClass] = useState(false);
@@ -23,7 +22,7 @@ let OperateDialog = ({courseInfo, username, updateList}, ref) => {
     // 调班记录调入的班级id
     let comeGradeId = '';
     // classId班级id,classCode班级code   id 当前点击listId
-    const {classId, classCode,id} = detail;
+    const {classId, classCode, id} = detail;
     const classInfo = {
         classId,
         classCode
@@ -49,6 +48,10 @@ let OperateDialog = ({courseInfo, username, updateList}, ref) => {
         //    4.调班弹窗
         openTransit: () => {
             getStudGradeIdsApi();
+        },
+        //    5.移出班级
+        operateInOrOut: () => {
+            removeStudApi();
         }
     }));
 
@@ -57,7 +60,7 @@ let OperateDialog = ({courseInfo, username, updateList}, ref) => {
         subCourseStatus();
     };
     // 改变选择复课班级
-    const selectChange = (val,type) => {
+    const selectChange = (val, type) => {
         if (type) {
             comeGradeId = val;
         } else {
@@ -106,6 +109,7 @@ let OperateDialog = ({courseInfo, username, updateList}, ref) => {
             updateList();
         }
     };
+
     // 获取班级列表接口
     async function noPageClassList(disabledData) {
         let {type} = courseInfo;
@@ -119,7 +123,7 @@ let OperateDialog = ({courseInfo, username, updateList}, ref) => {
                 disabledData.forEach(item => {
                     data.forEach(subItem => {
                         if (item.classId == subItem.id) {
-                            subItem.disabled=true;
+                            subItem.disabled = true;
                         } else {
                             if (!subItem.disabled) {
                                 subItem.disabled = false;
@@ -134,18 +138,29 @@ let OperateDialog = ({courseInfo, username, updateList}, ref) => {
 
         }
     };
+
     // 获取学员已加入班级的id
     async function getStudGradeIdsApi() {
-        let {data:{code,data}} = await getStudGradeIds(username);
+        let {data: {code, data}} = await getStudGradeIds(username);
         if (code == 1) {
             noPageClassList(data)
         }
     };
+
     // 调班提交
     async function addTransApi() {
-        let {data:{code}} = await addTrans(comeGradeId,classInfo.classCode,id);
+        let {data: {code}} = await addTrans(comeGradeId, classInfo.classCode, id);
         if (code == 1) {
             setTransit(false);
+            updateList();
+        }
+    };
+    // 移入或者移出班级接口
+    async function removeStudApi() {
+        const {type} = courseInfo;
+        const status = type == 'out' ? '1' : '0';
+        let {data:{code}} = await removeStud(id,status);
+        if (code == 1) {
             updateList();
         }
     }
@@ -227,7 +242,7 @@ let OperateDialog = ({courseInfo, username, updateList}, ref) => {
             >
                 {
                     Object.keys(courseInfo.detail).length &&
-                        <p className="mb-20">转出班级: {courseInfo.detail.calssArr[0].className}</p>
+                    <p className="mb-20">转出班级: {courseInfo.detail.calssArr[0].className}</p>
                 }
                 <Form form={transForm}>
                     <Form.Item
@@ -238,14 +253,15 @@ let OperateDialog = ({courseInfo, username, updateList}, ref) => {
 
                             showSearch
                             optionFilterProp="children"
-                            onChange={(val) => selectChange(val,'adjust')}
+                            onChange={(val) => selectChange(val, 'adjust')}
                             filterOption={(input, option) =>
                                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                             }
                         >
                             {
                                 lists.map(item =>
-                                    <Option value={item.id} key={item.id} disabled={item.disabled}>{item.className}</Option>
+                                    <Option value={item.id} key={item.id}
+                                            disabled={item.disabled}>{item.className}</Option>
                                 )
                             }
                         </Select>
