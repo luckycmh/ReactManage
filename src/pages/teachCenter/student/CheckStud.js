@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {useHistory} from 'react-router-dom'
 import {Row, Col, Button, Descriptions, Tabs, Card, Divider, Badge, Table, Pagination} from 'antd'
 import {DownOutlined, UpOutlined} from '@ant-design/icons'
 import classnames from 'classnames'
@@ -19,6 +20,7 @@ export default function () {
     const query = useQuery();
     const id = query.get('id');
     const username = query.get('username');
+    const history = useHistory();
     // 是否展示更多信息
     const [more, setMore] = useState(false);
     // 学员信息
@@ -34,6 +36,10 @@ export default function () {
     const [courseInfo, setCourseInfo] = useState({detail: {}, type: ''});
     // 弹窗组件
     const dialogRef = useRef(null);
+    // 编辑学员信息
+    const editStud = () => {
+        history.push(`/admin/teachCenter/stud/editStud?id=${id}&username=${username}`);
+    };
     // 子组件弹窗回调事件
     const updateList = useCallback(() => {
         getStudGradeListApi();
@@ -49,13 +55,7 @@ export default function () {
      * @param type 课程要改变的状态
      */
     const handleCourseStatus = (item, type) => {
-        setCourseInfo((prev) => {
-            return {
-                detail: item,
-                type:type
-            }
-        });
-
+        setCourseInfo({detail: item,type});
     };
     // 页面初始化
     useEffect(() => {
@@ -300,7 +300,7 @@ export default function () {
                     <Col span={24}>
                         <div className="fr">
                             <ul className="opt-ul">
-                                <li className="mr-10">编辑</li>
+                                <li className="mr-10" onClick={editStud}>编辑</li>
                                 <li className="active">删除</li>
                             </ul>
                         </div>

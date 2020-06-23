@@ -17,6 +17,8 @@ import StudList from './pages/teachCenter/student/StudList'
 import AddStud from './pages/teachCenter/student/AddStud'
 // 查看学员
 import CheckStud from "./pages/teachCenter/student/CheckStud";
+// 编辑学员
+import EditStud from "./pages/teachCenter/student/EditStud"
 
 //教务中心模块end
 
@@ -38,6 +40,7 @@ export default class RouterConfig extends React.Component {
                                             <Route exact path="/admin/teachCenter/stud" component={StudList}/>
                                             <Route path="/admin/teachCenter/stud/addStud" component={AddStud}/>
                                             <Route path="/admin/teachCenter/stud/checkStud" component={CheckStud}/>
+                                            <Route path="/admin/teachCenter/stud/editStud" component={EditStud}/>
                                             <Route component={NotFound}/>
                                         </Switch>
                                     </TeachCenter>
