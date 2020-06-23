@@ -11,6 +11,8 @@ const getStudUrl = '/api/v1/TeUser/userInfo';
 const getStudGradeListUrl = '/api/v1/TeUser/userClassList';
 // 学员复课停课结课接口
 const changeStudStatusUrl = '/api/v1/TeClass/courseStatusSave';
+// 查看学员已加入班级的id
+const getStudGradeIdsUrl = '/api/v1/TeUser/classstudentList';
 /**
  * 获取table列表接口
  * @param {*} page
@@ -96,12 +98,20 @@ const changeStudStatus = (id, courseStatus, classId, classCode, remarks) => netw
     classId,
     classCode,
     remarks
-})
+});
+/**
+ * 查看学员已加入班级的id
+ * @param {*} username
+ */
+const getStudGradeIds = (username) => network.post(getStudGradeIdsUrl, {
+    username
+});
 export {
     getTableList,
     getPhoneUser,
     addStud,
     getStud,
     getStudGradeList,
-    changeStudStatus
+    changeStudStatus,
+    getStudGradeIds
 }

@@ -61,6 +61,10 @@ export default function () {
             dialogRef.current.openStopClass();
         } else if (type == '1') {
             dialogRef.current.openReStart();
+        } else if (type == '3') {
+            dialogRef.current.openEnd();
+        } else if (type == '') {
+            dialogRef.current.openTransit();
         }
     };
     // 页面初始化
@@ -168,13 +172,13 @@ export default function () {
                 {
                     (status == 1 || status == 0) &&
                     <Button className="mr-10" onClick={() => {
-                        handleCourseStatus(item, '1')
+                        handleCourseStatus(item, 'out')
                     }}>移出班级</Button>
                 }
                 {
                     status == 4 &&
                     <Button className="mr-10" onClick={() => {
-                        handleCourseStatus(item, '0')
+                        handleCourseStatus(item, 'in')
                     }}>恢复班级</Button>
                 }
                 {
@@ -362,6 +366,7 @@ export default function () {
             {/*    弹窗结构 */}
             <OperateDialog
                 courseInfo={useMemo(() => courseInfo, [courseInfo])}
+                username={useMemo(() => username,[])}
                 updateList={updateList}
                 ref={dialogRef}
             />
