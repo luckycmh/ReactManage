@@ -53,6 +53,7 @@ export default function () {
             {
                 type: 'SELECT',
                 name: 'searchStud',
+                label: '',
                 placeholder: '',
                 data: studData
             },
@@ -64,6 +65,7 @@ export default function () {
             {
                 type: 'SELECT',
                 name: 'searchStatus',
+                label: '',
                 placeholder: '',
                 data: statusData
             }
@@ -98,7 +100,6 @@ export default function () {
             onCell: (record, rowIndex) => {
                 return {
                     onClick: event => {
-                        console.log(record);
                         history.push(`/admin/teachCenter/stud/checkStud?id=${record.id}&username=${record.username}`);
                     },
                 }
@@ -136,12 +137,16 @@ export default function () {
         {
             title: '操作',
             key: 'opt',
-            render: () => <Space>
-                <Button type="primary" size="small">查看</Button>
+            render: (record) => <Space>
+                <Button type="primary" size="small" onClick={() => handleCheck(record)}>查看</Button>
                 <Button type="primary" size="small" danger>分班</Button>
             </Space>
         }
     ];
+    // 查看详情
+    const handleCheck = (record) => {
+        history.push(`/admin/teachCenter/stud/checkStud?id=${record.id}&username=${record.username}`);
+    };
     // 表格改变
     const handleTableChange = (pagination) => {
         page.current = pagination.current;

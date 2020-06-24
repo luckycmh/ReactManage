@@ -352,6 +352,7 @@ export default function () {
                                     cardHtml(cardList)
                                 }
                                 <Pagination
+                                    hideOnSinglePage={true}
                                     current={pageInfo.current.page}
                                     total={pageInfo.current.total}
                                     showTotal={() => `共${pageInfo.current.total}条数据`}

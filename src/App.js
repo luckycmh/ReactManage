@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {useDispatch} from "react-redux";
 import Cookies from 'js-cookie'
-import {useHistory} from 'react-router-dom'
+import {useHistory,useLocation} from 'react-router-dom'
 import {handleUserInfo} from './redux/common/actions'
 import "./style/common.less"
 
@@ -9,6 +9,7 @@ export default function (props) {
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
     const history = useHistory();
+    const location = useLocation();
     // 设置加载状态为false
     useLayoutEffect(() => {
         setLoading(false);
@@ -25,6 +26,10 @@ export default function (props) {
             }
         }
     }, [loading])
+    useEffect(() => {
+        console.log(location)
+        window.scrollTo(0, 0);
+    },[location])
     return (
         <div className="App">
             {props.children}

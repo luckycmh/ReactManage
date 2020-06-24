@@ -1,8 +1,8 @@
 import React,{memo} from 'react'
-import {Form, Select, Input, Button} from 'antd'
+import {Form, Select, Input, Button, DatePicker } from 'antd'
 import {SearchOutlined} from '@ant-design/icons'
 import PropTypes from 'prop-types'
-
+const { RangePicker } = DatePicker;
 const Item = Form.Item;
 
 const FilterForm = memo(({formData,startSearch}) => {
@@ -16,6 +16,7 @@ const FilterForm = memo(({formData,startSearch}) => {
                         <Item
                             name={item.name}
                             key={item.name}
+                            label={item.label}
                         >
                             <Select>
                                 {
@@ -38,6 +39,7 @@ const FilterForm = memo(({formData,startSearch}) => {
                         <Item
                             name={item.name}
                             key={item.name}
+                            label={item.label}
                         >
                             <Input
                                 prefix={<SearchOutlined/>}
@@ -47,6 +49,17 @@ const FilterForm = memo(({formData,startSearch}) => {
                             />
                         </Item>
                     )
+                    break;
+                case 'RANGEDATEPICKER':
+                        initData.push(
+                            <Item
+                                name={item.name}
+                                key={item.name}
+                                label={item.label}
+                            >
+                                <RangePicker separator="至"/>
+                            </Item>
+                        )
                     break;
                 default:
                     break;
