@@ -27,7 +27,6 @@ export default function (props) {
         }
     }, [loading])
     useEffect(() => {
-        console.log(location)
         window.scrollTo(0, 0);
     },[location])
     return (

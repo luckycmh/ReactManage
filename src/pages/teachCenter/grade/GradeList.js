@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {useHistory} from 'react-router-dom'
 import {Row, Col, Button, Space, Badge,Popover, Table} from 'antd';
 import moment from 'moment';
 import CusBread from "../../../components/bread";
@@ -126,7 +127,7 @@ export default function () {
     }, []);
     // 操作结构
     const optHtml = (
-        <ul className="opt-ul">
+        <ul className="opt-ul-list">
             <li>分配学员</li>
             <li>排课</li>
             <li>签到</li>
@@ -139,7 +140,15 @@ export default function () {
         {
             title: '班级名称',
             key: 'className',
-            dataIndex: 'className'
+            dataIndex: 'className',
+            render: (className) => <span style={{color: '#FF8C15',cursor: 'pointer'}}>{className}</span>,
+            onCell: (record, rowIndex) => {
+                return {
+                    onClick: (event) => {
+
+                    }
+                }
+            }
         },
         {
             title: '人数',
@@ -183,7 +192,7 @@ export default function () {
             key: 'opt',
             render: () => {
                 return <Popover overlayClassName="opt-pop" placement="bottom" title="" content={optHtml}>
-                    <Button type="primary">操作</Button>
+                    <Button type="primary" size="small">操作</Button>
                 </Popover>
             }
         }
