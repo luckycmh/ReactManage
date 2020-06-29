@@ -143,7 +143,11 @@ export default function() {
     };
     // 取消
     const handleCancel = () => {
-        history.push(`/admin/teachCenter/stud/checkStud?id=${id}&username=${username}`);
+        history.push({
+            pathname: '/admin/teachCenter/stud/checkStud',
+            search:`?id=${id}&username=${username}`
+        })
+        // history.push(`/admin/teachCenter/stud/checkStud?id=${id}&username=${username}`);
     };
     // 页面apis
     async function getStudApi() {

@@ -21,7 +21,12 @@ const addStudBread = [
 // 学员详情面包屑
 const checkStudBread = [
     {
-        href: '/admin/teachCenter/stud',
+        href: {
+            pathname:'/admin/teachCenter/stud',
+            state: {
+                page: 'checkStud'
+            }
+        },
         name: '学员列表'
     },
     {
