@@ -13,6 +13,7 @@ import './index.less'
 const utils = new Utils();
 
 export default function () {
+    const history = useHistory();
     // 搜索课程名称数据
     const [course, setCourse] = useState([
         {
@@ -32,6 +33,10 @@ export default function () {
         startTime: '',
         endTime: ''
     });
+    // 新建班级
+    const addGrade = () => {
+        history.push('/admin/teachCenter/grade/addGrade');
+    };
     // 表格改变
     const handleChange = (pagination) => {
         pageRef.current.page = pagination.current;
@@ -216,7 +221,7 @@ export default function () {
                     <Row className="mb-20">
                         <Col span={24}>
                             <Space>
-                                <Button type="primary">新建</Button>
+                                <Button type="primary" onClick={addGrade}>新建</Button>
                                 <Button>导出</Button>
                             </Space>
                         </Col>

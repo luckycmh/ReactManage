@@ -5,6 +5,17 @@ const breadList = [
         name: '班级列表'
     }
 ];
+// 新建班级面包屑数据
+const addGradeBread = [
+    {
+        href: '/admin/teachCenter/grade',
+        name:'班级列表'
+    },
+    {
+        href: '',
+        name:'新建班级'
+    }
+];
 // 列表页查询条件数据
 const selectData = [
     {
@@ -18,5 +29,6 @@ const selectData = [
 ];
 export {
     breadList,
+    addGradeBread,
     selectData
 }
