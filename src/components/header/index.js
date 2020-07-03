@@ -18,13 +18,7 @@ const IconFont = createFromIconfontCN(
 export default function () {
     const {userAvatar, nickName} = useSelector(state => state.userState);
     const history = useHistory();
-    // setInterval(()=>{
-    //     let sysTime = utils.formatDate(new Date().getTime());
-    //     this.setState({
-    //         sysTime
-    //     })
-    // },1000);
-    //this.getWeatherApi();
+    const {OrgStar,OrgName} = JSON.parse(localStorage.getItem('annieUser'));
     const handleLogOut = () => {
         localStorage.removeItem("annieUser");
         Cookies.remove('ANNIEKIDSUSS');
@@ -60,7 +54,8 @@ export default function () {
             </div>
             <ul className="info-ul fr">
                 <li className="name-li">
-                    三星级 深圳福田安妮花土豆馆
+                    <span className="mr-10">{OrgStar}</span>
+                    {OrgName}
                 </li>
                 <li className="user-li">
                     <img src={userAvatar} alt=""/>

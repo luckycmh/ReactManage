@@ -8,6 +8,10 @@ const addTransUrl = '/api/v1/TeClass/studentTransfer';
 const gradeListUrl = '/api/v1/TeClass/classList';
 // 新建或者编辑班级保存接口
 const addGradeUrl = '/api/v1/TeClass/classSaveAdd';
+// 编辑班级初始化接口
+const getGradeInfoUrl = '/api/v1/TeClass/classInfo';
+// 查询班级学员接口
+const gradeStudUrl = '/api/v1/TeClass/classUsernameList';
 
 /**
  * 班级列表不分页数据
@@ -77,9 +81,27 @@ const addGrade = (id, orgId, courseId, courseType, className, classHour, courseH
     staffTaId,
     explain
 });
+/**
+ * 班级信息
+ * @param {*} id
+ */
+const getGradeInfo = (id) => network.post(getGradeInfoUrl, {
+    id
+});
+/**
+ * 获取班级学员
+ * @param {*} classId 班级id
+ * @param {*} page
+ */
+const getGradeStud = (classId, page) => network.post(gradeStudUrl, {
+    classId,
+    page
+});
 export {
     classListNoPage,
     addTrans,
     getGradeList,
-    addGrade
+    addGrade,
+    getGradeInfo,
+    getGradeStud
 }

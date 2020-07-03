@@ -23,7 +23,9 @@ import EditStud from "./pages/teachCenter/student/EditStud"
 // 班级列表
 import GradeList from './pages/teachCenter/grade/GradeList'
 // 新建班级
-import AddGrade from './pages/teachCenter/grade/addGrade'
+import AddGrade from './pages/teachCenter/grade/AddGrade'
+// 班级详情
+import CheckGrade from "./pages/teachCenter/grade/CheckGrade";
 
 //教务中心模块end
 
@@ -45,6 +47,7 @@ export default class RouterConfig extends React.Component {
                                 <Route path="/admin/teachCenter/stud/editStud" component={EditStud}/>
                                 <Route exact path="/admin/teachCenter/grade" component={GradeList}/>
                                 <Route path="/admin/teachCenter/grade/addGrade" component={AddGrade}/>
+                                <Route path="/admin/teachCenter/grade/checkGrade" component={CheckGrade}/>
                                 <Route component={NotFound}/>
                             </Switch>
                         </Admin>

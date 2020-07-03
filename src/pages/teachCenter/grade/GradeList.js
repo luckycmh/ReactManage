@@ -150,7 +150,11 @@ export default function () {
             onCell: (record, rowIndex) => {
                 return {
                     onClick: (event) => {
-
+                        const {id,classMode,classCode} = record;
+                        history.push({
+                            pathname: '/admin/teachCenter/grade/checkGrade',
+                            search:`?id=${id}&classMode=${classMode}&classCode=${classCode}`
+                        });
                     }
                 }
             }

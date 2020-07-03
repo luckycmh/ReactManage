@@ -16,6 +16,22 @@ const addGradeBread = [
         name:'新建班级'
     }
 ];
+// 查看班级面包屑数据
+const checkGradeBread = [
+    {
+        href: {
+            pathname: '/admin/teachCenter/grade',
+            state: {
+                page: 'checkGrade'
+            }
+        },
+        name:'班级列表'
+    },
+    {
+        href: '',
+        name:'班级详情'
+    }
+];
 // 列表页查询条件数据
 const selectData = [
     {
@@ -30,5 +46,6 @@ const selectData = [
 export {
     breadList,
     addGradeBread,
+    checkGradeBread,
     selectData
 }
