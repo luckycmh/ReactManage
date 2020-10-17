@@ -5,7 +5,6 @@ import {
     Switch,
     Redirect
 } from "react-router-dom";
-import Cookies from 'js-cookie'
 import App from './App'
 import Login from './pages/login'
 import Admin from "./Admin";
@@ -29,6 +28,10 @@ import CheckGrade from "./pages/teachCenter/grade/CheckGrade";
 
 //教务中心模块end
 
+//线上阅读馆开始
+import ReadList from './pages/lineRead/readManage/ReadList'
+//线上阅读馆结束
+
 import NotFound from './pages/notFound'
 
 export default class RouterConfig extends React.Component {
@@ -48,6 +51,7 @@ export default class RouterConfig extends React.Component {
                                 <Route exact path="/admin/teachCenter/grade" component={GradeList}/>
                                 <Route path="/admin/teachCenter/grade/addGrade" component={AddGrade}/>
                                 <Route path="/admin/teachCenter/grade/checkGrade" component={CheckGrade}/>
+                                <Route exact path="/admin/lineRead/readManage" component={ReadList}/>
                                 <Route component={NotFound}/>
                             </Switch>
                         </Admin>
