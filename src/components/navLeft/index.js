@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom'
-import {Menu,Badge } from 'antd';
+import {Menu, Badge} from 'antd';
 import {
     Link
 } from "react-router-dom";
 import {useSelector} from 'react-redux'
 import {Utils} from "../../utils/utils";
 import iconFont from "../../utils/iconfont"
-import { createFromIconfontCN } from '@ant-design/icons';
+import {createFromIconfontCN} from '@ant-design/icons';
 
 import './navLeft.less'
 
@@ -24,7 +24,7 @@ export default function () {
     const {permissionInfo} = useSelector(state => {
         return state.userState
     });
-    const [menuDef,setMenuDef] = useState({open:[''],key:['']})
+    const [menuDef, setMenuDef] = useState({open: [''], key: ['']})
     // 渲染导航结构
     const renderMenu = (data) => {
         if (!data) return;
@@ -44,7 +44,7 @@ export default function () {
                 <Menu.Item
                     title={item.MenuName}
                     key={item.WebUrl}
-                    icon={<IconFont type={item.IcoClass ? item.IcoClass: 'icon-default'}/>}
+                    icon={<IconFont type={item.IcoClass ? item.IcoClass : 'icon-default'}/>}
                 >
                     <Link to={item.WebUrl}>
                         {!item.IcoClass && <Badge status="default"/>}
@@ -57,13 +57,14 @@ export default function () {
         })
     };
     useEffect(() => {
-        if(permissionInfo){
+        if (permissionInfo) {
+            const {menuName,menuKey} = utils.getParent(permissionInfo, pathname);
             const newState = {
-                open: [utils.getParent(permissionInfo, pathname).menuName],
-                key: [utils.getParent(permissionInfo, pathname).menuKey]
+                open: [menuName],
+                key: [menuKey]
             };
             setMenuDef((menuDef) => {
-                return {...menuDef,...newState}
+                return {...menuDef, ...newState}
             });
         }
     }, [permissionInfo]);

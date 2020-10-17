@@ -121,21 +121,26 @@ class Utils {
      * @param {String} menuPath 当前路径path
      */
     getParent(menus, menuPath) {
-        if (!menus) return
+        if (!menus) return;
+        menuPath = menuPath.replace(/\/admin/g,'');
         let menuName = '';
         let menuKey = '';
-        for (let child in menus) {
+        parent: for (let child in menus) {
             if (menus[child].son.length > 0) {
-                for (let i = 0; i < menus[child].son.length; i++) {
-                    if ( menuPath.indexOf(menus[child].son[i].WebUrl) > -1) {
+                son: for (let i = 0; i < menus[child].son.length; i++) {
+                    if ( menus[child].son[i].WebUrl.indexOf(menuPath) > -1) {
                         menuName = menus[child].MenuName;
                         menuKey = menus[child].son[i].WebUrl;
+                        break parent;
+                        break son;
                     }
                 }
                 this.getParent(menus[child].son, menuPath);
             } else {
-                menuName = menus[child].MenuName;
-                menuKey = menus[child].WebUrl;
+                if(!menuName) {
+                    menuName = menus[child].MenuName;
+                    menuKey = menus[child].WebUrl;
+                }
             }
         }
         return {menuName,menuKey}

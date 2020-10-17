@@ -10,7 +10,14 @@ export const userState = handleActions({
             ...action.payload
         }
     }
-},user)
+},user);
+//高亮导航地址
+let activeTab = '';
+export const activeTabPath = handleActions({
+    [types.CURRENT_TAB_Path](state,{payload}){
+        return activeTab = payload;
+    }
+},activeTab);
 
 
 

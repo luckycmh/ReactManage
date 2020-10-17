@@ -2,8 +2,10 @@ import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {useDispatch} from "react-redux";
 import Cookies from 'js-cookie'
 import {useHistory,useLocation} from 'react-router-dom'
-import {handleUserInfo} from './redux/common/actions'
+import {handleUserInfo,handleActivePath} from './redux/common/actions'
+import {Utils} from "./utils/utils";
 import "./style/common.less"
+const utils = new Utils();
 
 export default function (props) {
     const [loading, setLoading] = useState(true);
@@ -15,7 +17,7 @@ export default function (props) {
         setLoading(false);
     }, []);
     // 浏览器更新做redux同步更新
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (!loading) {
             if (localStorage.getItem('annieUser') && Cookies.get('ANNIEKIDSUSS')) {
                 let decodeData = JSON.parse(localStorage.getItem('annieUser'));
@@ -25,10 +27,13 @@ export default function (props) {
                 localStorage.removeItem('annieUser');
             }
         }
-    }, [loading])
+    }, [loading]);
+    // 当前地址改变时候存储高亮地址
     useEffect(() => {
         window.scrollTo(0, 0);
-    },[location])
+        const {permissionInfo} = JSON.parse(localStorage.getItem('annieUser'));
+        dispatch(handleActivePath(utils.getParent(permissionInfo,location.pathname).menuKey));
+    },[location]);
     return (
         <div className="App">
             {props.children}
