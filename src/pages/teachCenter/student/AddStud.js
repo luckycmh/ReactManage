@@ -1,5 +1,6 @@
 import React, { useMemo, useRef, useState} from 'react'
 import {useHistory} from 'react-router-dom'
+import {useSelector} from "react-redux";
 import {
     Form,
     Upload,
@@ -16,7 +17,6 @@ import moment from 'moment'
 import CusBread from '../../../components/bread'
 import {addStudBread} from "./data";
 import {uploadInstance} from '../../../axios/uploadInstance'
-import {userId, userName} from "../../../consts";
 import {Utils} from "../../../utils/utils";
 import {cityJson} from '../../pca-codes'
 import {getPhoneUser, addStud} from '../../../apis/teachCenter/student'
@@ -25,6 +25,8 @@ import './index.less'
 const utils = new Utils();
 
 export default function () {
+    //REDUX
+    const {userId,userName} = useSelector(state => state.userState);
     // 路由
     const history = useHistory();
     // 表单相关字段

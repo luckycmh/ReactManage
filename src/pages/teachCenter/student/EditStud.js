@@ -1,6 +1,7 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react'
 import {Form, Input, Select, Upload, Radio, DatePicker, Cascader, Button, message, Modal, Table} from "antd";
 import {useHistory} from 'react-router-dom'
+import {useSelector} from "react-redux";
 import moment from 'moment'
 import {useQuery} from '../../../utils/tools'
 import {Utils} from "../../../utils/utils";
@@ -14,6 +15,8 @@ import {uploadInstance} from "../../../axios/uploadInstance";
 const utils = new Utils();
 
 export default function() {
+    const {userId,userName} = useSelector(state => state.userState)
+    //获取query参数
     const query = useQuery();
     const history = useHistory();
     const id = query.get('id');
@@ -80,7 +83,6 @@ export default function() {
         }
     };
     function uploadImg(file) {
-        const {userId,userName} = JSON.parse(localStorage.getItem('annieUser'));
         const imgObj = {
             timestamp: moment().format('X'),
             classId: '',
