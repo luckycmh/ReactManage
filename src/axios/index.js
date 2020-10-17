@@ -1,14 +1,16 @@
 import axios from 'axios'
+import Cookies from 'js-cookie'
+import {
+    Utils
+} from '../utils/utils'
 import qs from 'qs'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {message, Spin} from 'antd';
 import md5 from 'js-md5';
 let Base64 = require('js-base64').Base64;
-import Cookies from 'js-cookie'
-import {
-    Utils
-} from '../utils/utils'
+
+
 const utils = new Utils();
 // 响应时间
 axios.defaults.timeout = 5000;
@@ -39,7 +41,7 @@ let userId = '';
 axios.interceptors.request.use(config => {
     //获取cookie
     let ANNIEKIDSUSS = Cookies.get('ANNIEKIDSUSS');
-    ANNIEKIDSUSS ? config.headers['ANNIEKIDSUSS'] = ANNIEKIDSUSS : '';
+    config.headers['ANNIEKIDSUSS'] = ANNIEKIDSUSS ? ANNIEKIDSUSS : '';
     userId = localStorage.getItem('annieUser') ? JSON.parse(localStorage.getItem('annieUser')).userId : '';
     // 才创建loading, 避免重复创建
     if (config.headers.isLoading !== false) {
@@ -52,8 +54,9 @@ axios.interceptors.request.use(config => {
             userId,
             ...config.data
         };
-        let filtered = utils.filterParams(config.data);
-        let signed = utils.getSign(filtered) + '&annieportalkey=0f977b6090bc11e89de47ef7fbe91ebc';
+        let sort = utils.getSign(config.data); //排序
+        let filtered = utils.splitParam(sort); // 转小写
+        let signed = filtered + '&annieportalkey=0f977b6090bc11e89de47ef7fbe91ebc';
         config.data.signature = Base64.encode(md5(signed));
         config.data = qs.stringify(config.data);
     }else if (config.method === 'get') {
@@ -63,8 +66,9 @@ axios.interceptors.request.use(config => {
             userId,
             ...config.params
         };
-        let filtered = utils.filterParams(config.params);
-        let signed = utils.getSign(filtered) + '&annieportalkey=0f977b6090bc11e89de47ef7fbe91ebc';
+        let sort = utils.getSign(config.data); //排序
+        let filtered = utils.splitParam(sort); // 转小写
+        let signed = filtered + '&annieportalkey=0f977b6090bc11e89de47ef7fbe91ebc';
         config.params.signature = Base64.encode(md5(signed));
 
     }

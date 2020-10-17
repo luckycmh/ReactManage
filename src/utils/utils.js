@@ -4,9 +4,10 @@
  * @description: 工具文件
  */
 import md5 from 'js-md5';
+import crypto from 'crypto'
 
 let Base64 = require('js-base64').Base64;
-import crypto from 'crypto'
+
 
 class Utils {
     constructor() {
@@ -62,6 +63,25 @@ class Utils {
     paramsStrSort(paramsStr) {
         let urlStr = paramsStr.split("&").sort().join("&");
         return urlStr;
+    }
+    /**
+     * 分割字符串
+     * @param {*} para
+     */
+    splitParam(para) {
+        let arr = para.split("&");
+        let allArr = [];
+        arr.forEach(item => {
+            let keyArr = [];
+            let index = item.indexOf('=');
+            keyArr = [item.substring(0,index), item.substring(index+1,item.length)];
+            if (typeof (keyArr[1]) !== 'object') {
+                keyArr[0] = keyArr[0].toLocaleLowerCase();
+                keyArr[1] = keyArr[1].toLocaleLowerCase();
+                allArr.push(keyArr.join("="));
+            }
+        });
+        return allArr.join("&");
     }
 
     /**

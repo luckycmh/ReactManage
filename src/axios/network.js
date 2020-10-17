@@ -4,11 +4,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {message, Spin} from 'antd';
 import md5 from 'js-md5';
-let Base64 = require('js-base64').Base64;
 import Cookies from 'js-cookie'
 import {
     Utils
 } from '../utils/utils'
+let Base64 = require('js-base64').Base64;
+
 const utils = new Utils();
 let baseURL;
 // 地址待更换
@@ -53,8 +54,9 @@ network.interceptors.request.use(config => {
             number:mobile,
             ...config.data
         };
-        let filtered = utils.filterParams(config.data);
-        let signed = utils.getSign(filtered) + '&annieteachingkey=8ec7a5141975d86854aa474eb0b3e7ff';
+        let sort = utils.getSign(config.data); //排序
+        let filtered = utils.splitParam(sort); // 转小写
+        let signed = filtered + '&annieteachingkey=8ec7a5141975d86854aa474eb0b3e7ff';
         config.data.signature = Base64.encode(md5(signed));
         config.data = qs.stringify(config.data);
     }else if (config.method === 'get') {
@@ -64,8 +66,9 @@ network.interceptors.request.use(config => {
             number:mobile,
             ...config.params
         };
-        let filtered = utils.filterParams(config.params);
-        let signed = utils.getSign(filtered) + '&annieteachingkey=8ec7a5141975d86854aa474eb0b3e7ff';
+        let sort = utils.getSign(config.params); //排序
+        let filtered = utils.splitParam(sort); // 转小写
+        let signed = filtered + '&annieteachingkey=8ec7a5141975d86854aa474eb0b3e7ff';
         config.params.signature = Base64.encode(md5(signed));
 
     }
