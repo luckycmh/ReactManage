@@ -40,7 +40,7 @@ export default function () {
     const editStud = () => {
         history.push(`/admin/teachCenter/stud/editStud?id=${id}&username=${username}`);
     };
-    // 子组件弹窗回调事件
+    // 子组件弹窗回调事件，使用useCallback优化
     const updateList = useCallback(() => {
         getStudGradeListApi();
     },[]);
@@ -98,7 +98,9 @@ export default function () {
             pageInfo.current.total = data.total;
             data.list.forEach(item => {
                 item.calssArr[0].key = item.calssArr[0].className;
+                // item.openingstatus = item.calssArr[0].openingstatus;
             });
+
             setCardList(data.list);
         }
     }
@@ -153,7 +155,7 @@ export default function () {
         return (
             <div className="btns-wrap">
                 {
-                    status == 1 &&
+                    status == 5 &&
                     <Button className="mr-10" onClick={() =>
                         handleCourseStatus(item, '2')
                     }>停课</Button>
@@ -171,13 +173,13 @@ export default function () {
                     }>结课</Button>
                 }
                 {
-                    (status == 1 || status == 0) &&
+                    (status == 1 || status == 5) &&
                     <Button className="mr-10" onClick={() =>
                         handleCourseStatus(item, '')
                     }>调班</Button>
                 }
                 {
-                    (status == 1 || status == 0) &&
+                    (status == 1 || status == 5) &&
                     <Button className="mr-10" onClick={() =>
                         handleCourseStatus(item, 'out')
                     }>移出班级</Button>
