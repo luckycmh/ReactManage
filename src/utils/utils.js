@@ -128,7 +128,7 @@ class Utils {
         parent: for (let child in menus) {
             if (menus[child].son.length > 0) {
                 son: for (let i = 0; i < menus[child].son.length; i++) {
-                    if ( menus[child].son[i].WebUrl.indexOf(menuPath) > -1) {
+                    if ( menuPath.indexOf(menus[child].son[i].WebUrl.replace(/\/admin/g,'')) > -1) {
                         menuName = menus[child].MenuName;
                         menuKey = menus[child].son[i].WebUrl;
                         break parent;

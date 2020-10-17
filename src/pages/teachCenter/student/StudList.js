@@ -160,7 +160,10 @@ export default function () {
     };
     // 新建学员
     const addStud = () => {
-        history.push('/admin/teachCenter/stud/addStud');
+        history.push({
+            pathname:'/admin/teachCenter/stud/addStud',
+            state:'123'
+        });
     };
 
     // 学员列表api
