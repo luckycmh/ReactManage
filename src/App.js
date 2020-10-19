@@ -31,8 +31,11 @@ export default function (props) {
     // 当前地址改变时候存储高亮地址
     useEffect(() => {
         window.scrollTo(0, 0);
-        const {permissionInfo} = JSON.parse(localStorage.getItem('annieUser'));
-        dispatch(handleActivePath(utils.getParent(permissionInfo,location.pathname).menuKey));
+        const {permissionInfo} = localStorage.getItem('annieUser') ? JSON.parse(localStorage.getItem('annieUser')) : [];
+        if(localStorage.getItem('annieUser')) {
+            dispatch(handleActivePath(utils.getParent(permissionInfo,location.pathname).menuKey));
+        }
+
     },[location]);
     return (
         <div className="App">

@@ -1,4 +1,4 @@
 import {combineReducers} from "redux";
-import {userState,activeTabPath} from './common/reducer'
+import {userState,activeTabPath,getTopNav} from './common/reducer'
 
-export default combineReducers({userState,activeTabPath});
+export default combineReducers({userState,activeTabPath,getTopNav});

@@ -18,7 +18,7 @@ const IconFont = createFromIconfontCN(
 export default function () {
     const {userAvatar, nickName} = useSelector(state => state.userState);
     const history = useHistory();
-    const {OrgStar,OrgName} = JSON.parse(localStorage.getItem('annieUser'));
+    const {OrgStar,OrgName} = localStorage.getItem('annieUser') ? JSON.parse(localStorage.getItem('annieUser')) : '';
     const handleLogOut = () => {
         localStorage.removeItem("annieUser");
         Cookies.remove('ANNIEKIDSUSS');

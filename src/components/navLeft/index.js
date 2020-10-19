@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom'
+
 import {Menu, Badge} from 'antd';
 import {
     Link
 } from "react-router-dom";
-import {useSelector} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
 import {Utils} from "../../utils/utils";
 import iconFont from "../../utils/iconfont"
 import {createFromIconfontCN} from '@ant-design/icons';
+import {handleTopNav} from "../../redux/common/actions";
+
 
 import './navLeft.less'
 
@@ -18,13 +21,29 @@ const IconFont = createFromIconfontCN({
     scriptUrl: iconFont,
 });
 export default function () {
+    //派发action
+    const dispatch = useDispatch();
     //当前路由导航
     const {pathname} = useLocation();
     // 导航按钮 状态redux
     const {permissionInfo} = useSelector(state => {
         return state.userState
     });
-    const [menuDef, setMenuDef] = useState({open: [''], key: ['']})
+    //顶部导航
+    const topNav = useSelector(state => state.getTopNav);
+    const [menuDef, setMenuDef] = useState({open: [''], key: ['']});
+    //点击子导航
+    const menuItemClick = (item) => {
+        const hasItem = topNav.some(el => el.path == item.WebUrl);
+        if(!hasItem) {
+            const tab = {
+                title: item.MenuName,
+                path: item.WebUrl,
+                isShow: true
+            };
+            dispatch(handleTopNav({type:'add', tab}));
+        }
+    };
     // 渲染导航结构
     const renderMenu = (data) => {
         if (!data) return;
@@ -45,6 +64,7 @@ export default function () {
                     title={item.MenuName}
                     key={item.WebUrl}
                     icon={<IconFont type={item.IcoClass ? item.IcoClass : 'icon-default'}/>}
+                    onClick={() => menuItemClick(item)}
                 >
                     <Link to={item.WebUrl}>
                         {!item.IcoClass && <Badge status="default"/>}

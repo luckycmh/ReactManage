@@ -18,6 +18,21 @@ export const activeTabPath = handleActions({
         return activeTab = payload;
     }
 },activeTab);
-
+//顶部导航
+let topNav = [];
+export const getTopNav = handleActions({
+    [types.TOP_NAV](state,{payload:{type,tab}}) {
+        if(type === 'add') {
+            topNav = [...topNav, tab];
+        } else if(type === 'sub') {
+            topNav.forEach(item => {
+                if(item.path === tab){
+                    item.isShow = false;
+                }
+            });
+        }
+        return topNav.filter(item => item.isShow);
+    }
+},topNav);
 
 
