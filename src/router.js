@@ -5,35 +5,37 @@ import {
     Switch,
     Redirect
 } from "react-router-dom";
+import loadable from './utils/loadable'
 import App from './App'
-import Login from './pages/login'
 import Admin from "./Admin";
-import Home from './pages/home'
+import Login from './pages/login';
+import Home from './pages/home';
+
 // 教务中心模块start
 
 // 学员列表
-import StudList from './pages/teachCenter/student/StudList'
+const StudList = loadable(() => import('./pages/teachCenter/student/StudList'));
 // 添加学员
-import AddStud from './pages/teachCenter/student/AddStud'
+const AddStud = loadable(() => import('./pages/teachCenter/student/AddStud'));
 // 查看学员
-import CheckStud from "./pages/teachCenter/student/CheckStud";
+const CheckStud = loadable(()=> import('./pages/teachCenter/student/CheckStud'));
 // 编辑学员
-import EditStud from "./pages/teachCenter/student/EditStud"
+const EditStud = loadable(() => import('./pages/teachCenter/student/EditStud'));
 // 班级列表
-import GradeList from './pages/teachCenter/grade/GradeList'
+const GradeList = loadable(()=>import('./pages/teachCenter/grade/GradeList'));
 // 新建班级
-import AddGrade from './pages/teachCenter/grade/AddGrade'
+const AddGrade = loadable(() => import('./pages/teachCenter/grade/AddGrade'));
 // 班级详情
-import CheckGrade from "./pages/teachCenter/grade/CheckGrade";
+const CheckGrade = loadable(() => import('./pages/teachCenter/grade/CheckGrade'));
 
 //教务中心模块end
 
 //线上阅读馆开始
-import ReadList from './pages/lineRead/readManage/ReadList'
+
+const ReadList = loadable(() => import('./pages/lineRead/readManage/ReadList'));
 //线上阅读馆结束
 
-import NotFound from './pages/notFound'
-
+const NotFound = loadable(() => import('./pages/notFound'));
 export default class RouterConfig extends React.Component {
     render() {
         return (

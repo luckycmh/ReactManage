@@ -44,11 +44,11 @@ export default function () {
         }
     }, [isSub])
     // 判断是否在登录状态跳转页面。是否有记住密码选项
-    useLayoutEffect(() => {
-        if (localStorage.getItem('annieUser') && Cookies.get('ANNIEKIDSUSS')) {
-            history.push('/');
-        }
-    }, []);
+    // useLayoutEffect(() => {
+    //     if (localStorage.getItem('annieUser') && Cookies.get('ANNIEKIDSUSS')) {
+    //         history.push('/');
+    //     }
+    // }, []);
     //表单提交事件
     const onFinish = (values) => {
         setTelephone(values.telephone);
