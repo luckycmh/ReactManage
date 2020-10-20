@@ -6,6 +6,7 @@ import {
     Redirect
 } from "react-router-dom";
 import loadable from './utils/loadable'
+import PrivateRoute from "./private";
 import App from './App'
 import Admin from "./Admin";
 import Login from './pages/login';
@@ -45,12 +46,14 @@ export default class RouterConfig extends React.Component {
                     <Route path="/admin" render={() =>
                         <Admin>
                             <Switch>
-                                <Route path="/admin/main" component={Home}/>
+                                <PrivateRoute path="/admin/main" component={Home}/>
                                 <Route exact path="/admin/teachCenter/stud" component={StudList}/>
-                                <Route path="/admin/teachCenter/stud/addStud" component={AddStud}/>
+                                {/*<Route path="/admin/teachCenter/stud/addStud" component={AddStud}/>*/}
+                                <PrivateRoute path="/admin/teachCenter/stud/addStud" component={AddStud}/>
                                 <Route path="/admin/teachCenter/stud/checkStud" component={CheckStud}/>
                                 <Route path="/admin/teachCenter/stud/editStud" component={EditStud}/>
-                                <Route exact path="/admin/teachCenter/grade" component={GradeList}/>
+                                {/*<Route exact path="/admin/teachCenter/grade" component={GradeList}/>*/}
+                                <PrivateRoute exact path="/admin/teachCenter/grade" component={GradeList}/>
                                 <Route path="/admin/teachCenter/grade/addGrade" component={AddGrade}/>
                                 <Route path="/admin/teachCenter/grade/checkGrade" component={CheckGrade}/>
                                 <Route exact path="/admin/lineRead/readManage" component={ReadList}/>

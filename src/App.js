@@ -22,10 +22,11 @@ export default function (props) {
             if (localStorage.getItem('annieUser') && Cookies.get('ANNIEKIDSUSS')) {
                 let decodeData = JSON.parse(localStorage.getItem('annieUser'));
                 dispatch(handleUserInfo(decodeData))
-            } else {
-                history.push('/login');
-                localStorage.removeItem('annieUser');
             }
+            // else {
+            //     history.push('/login');
+            //     localStorage.removeItem('annieUser');
+            // }
         }
     }, [loading]);
     // 当前地址改变时候存储高亮地址
