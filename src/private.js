@@ -6,7 +6,7 @@ const PrivateRoute = (props) => {
     let { component: Component,path="",exact=false,strict=false} = props;
    return (
        isLogin ?
-           <Route path={path} exact={exact} strict={strict} component={Component}></Route> :
+           <Route path={path} exact={exact} strict={strict} render={(props) => (<Component {...props}/>)}/> :
            <Redirect to="/login"/>
    )
 };
