@@ -47,17 +47,15 @@ export default class RouterConfig extends React.Component {
                         <Admin>
                             <Switch>
                                 <PrivateRoute path="/admin/main" component={Home}/>
-                                <Route exact path="/admin/teachCenter/stud" component={StudList}/>
-                                {/*<Route path="/admin/teachCenter/stud/addStud" component={AddStud}/>*/}
+                                <PrivateRoute exact path="/admin/teachCenter/stud" component={StudList}/>
                                 <PrivateRoute path="/admin/teachCenter/stud/addStud" component={AddStud}/>
-                                <Route path="/admin/teachCenter/stud/checkStud" component={CheckStud}/>
-                                <Route path="/admin/teachCenter/stud/editStud" component={EditStud}/>
-                                {/*<Route exact path="/admin/teachCenter/grade" component={GradeList}/>*/}
+                                <PrivateRoute path="/admin/teachCenter/stud/checkStud" component={CheckStud}/>
+                                <PrivateRoute path="/admin/teachCenter/stud/editStud" component={EditStud}/>
                                 <PrivateRoute exact path="/admin/teachCenter/grade" component={GradeList}/>
-                                <Route path="/admin/teachCenter/grade/addGrade" component={AddGrade}/>
-                                <Route path="/admin/teachCenter/grade/checkGrade" component={CheckGrade}/>
-                                <Route exact path="/admin/lineRead/readManage" component={ReadList}/>
-                                <Route component={NotFound}/>
+                                <PrivateRoute path="/admin/teachCenter/grade/addGrade" component={AddGrade}/>
+                                <PrivateRoute path="/admin/teachCenter/grade/checkGrade" component={CheckGrade}/>
+                                <PrivateRoute exact path="/admin/lineRead/readManage" component={ReadList}/>
+                                <PrivateRoute component={NotFound}/>
                             </Switch>
                         </Admin>
                     }/>
