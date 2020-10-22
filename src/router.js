@@ -7,10 +7,10 @@ import {
 } from "react-router-dom";
 import loadable from './utils/loadable'
 import PrivateRoute from "./private";
-import App from './App'
-import Admin from "./Admin";
-import Login from './pages/login';
-import Home from './pages/home';
+const App = loadable(() => import('./App'));
+const Admin = loadable(() => import('./Admin'));
+const Login = loadable(() => import('./pages/login'));
+const Home = loadable(() => import('./pages/home'));
 
 // 教务中心模块start
 
