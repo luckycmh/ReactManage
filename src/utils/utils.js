@@ -208,6 +208,20 @@ class Utils {
         if (!list.length) return;
         return list.map(item => item.key = item.id)
     }
+    /**
+     * 顶部切换tab高亮
+     * @param index
+     * @param list
+     * @returns {*}
+     */
+    handleNavActive = (index,list) => {
+        return list.map((item,idx) => {
+            if(idx === index) {
+                item.active = true;
+            }
+            return item;
+        });
+    }
 
 
 }
